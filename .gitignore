@@ -1,0 +1,5 @@
+/Application/Runtime/*
+/ThinkPHP/*
+conf.php
+README.md
+/.idea/*
