@@ -1,5 +1,5 @@
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS `hahahatest` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `brilliant_bee_s` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 USE `hahahatest`;
 -- 用户表
 DROP TABLE IF EXISTS `bbs_user`;
