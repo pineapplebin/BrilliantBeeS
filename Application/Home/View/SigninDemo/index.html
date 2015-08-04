@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>闪现函数调用示例</title>
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap-theme.min.css" type="text/css">
+    <style>
+        * {
+            font-family: '微软雅黑', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="margin-left: auto;margin-right: auto;width: 50%; margin-top: 50px;">
+        <php>
+            $flash_messages = get_flash_messages();
+            foreach ($flash_messages as $msg) {
+                echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg.'</div>';
+            }
+        </php>
+        <form action="{:U('handle')}" method="post">
+            <label for="username">用户名</label><br>
+            <input type="text" name="username" id="username"><br>
+            <label for="password">密码</label><br>
+            <input type="text" name="password" id="password"><br><br>
+            <input type="submit" value="确定" name="submit">
+        </form>
+    </div>
+    <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
+    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+</body>
+</html>
