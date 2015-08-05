@@ -15,14 +15,27 @@ function i_p($arr) {
  * 例如，在注册页面中，后台处理后发现用户名重复，即可使用此函数，
  * 并重定向至注册页面或其他页面，均能显示内容
  *
+ * 第二参数是消息样式颜色，目前使用bootstrap样式，默认为红色
+ * 即alert-danger
+ *
  * @param $msg 消息内容
+ * @param $color 消息样式颜色，默认为red
  */
-function flash($msg) {
+function flash($msg, $color='red') {
+    $type = '';
+    switch ($color) {
+        case 'red': $type = 'alert-danger';break;
+        case 'yellow': $type = 'alert-warning';break;
+        case 'green': $type = 'alert-success';break;
+        case 'blue': $type = 'alert-info';break;
+    }
     $messages = session('flash_list');
     if ($messages != null) {
-        $messages[] = $msg;
+        $messages[] = array($msg, $type);
     } else {
-        $messages = array($msg);
+        $messages = array(
+            array($msg, $type)
+        );
     }
     session('flash_list', $messages);
 }
@@ -34,7 +47,7 @@ function flash($msg) {
  * @return 返回消息数组
  */
 function get_flash_messages() {
-    $msg = session('flash_list');
+    $messages = session('flash_list');
     session('flash_list', null);
-    return $msg;
+    return $messages;
 }

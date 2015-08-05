@@ -16,14 +16,14 @@
         <php>
             $flash_messages = get_flash_messages();
             foreach ($flash_messages as $msg) {
-                echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg.'</div>';
+                echo '<div class="alert '.$msg[1].'"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[0].'</div>';
             }
         </php>
         <form action="{:U('handle')}" method="post">
             <label for="username">用户名</label><br>
             <input type="text" name="username" id="username"><br>
             <label for="password">密码</label><br>
-            <input type="text" name="password" id="password"><br><br>
+            <input type="password" name="password" id="password"><br><br>
             <input type="submit" value="确定" name="submit">
         </form>
     </div>

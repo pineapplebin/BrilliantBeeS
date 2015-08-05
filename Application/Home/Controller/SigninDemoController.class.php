@@ -26,9 +26,8 @@ class SigninDemoController extends NormalBaseController {
         }
         // 如果都输入了则返回save，否则重定向至注册页面
         if ($is_save) {
-            echo 'save';
-        } else {
-            $this->redirect('index');
+            flash('你的信息已经全部输入', 'green');
         }
+        $this->redirect('index');
     }
 }
