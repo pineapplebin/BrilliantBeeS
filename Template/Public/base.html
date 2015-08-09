@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <title>Starter Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .alert {
+            margin-bottom: 5px;
+        }
+    </style>
+    <!-- 继承模板插入css文件位置 -->
+    <block name="css_file"></block>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{:U('Home/Index/index')}">BrilliantBeeS</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+
+</nav>
+
+<div class="container">
+    <div style="margin-top: 55px;">
+        <php>
+            $flash_messages = get_flash_messages();
+            foreach ($flash_messages as $msg) {
+            echo '<div class="alert '.$msg[1].'"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[0].'</div>';
+            }
+        </php>
+        <block name="content"></block>
+    </div>
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<block name="js_file"></block>
+</body>
+</html>
