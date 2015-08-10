@@ -51,6 +51,8 @@ class SignupController extends NormalBaseController {
 
         if ($can_save) {
             // 保存
+            flash('你已经成功注册', 'green');
+            $this->redirect('Home/Index/index');
         } else {
             $this->redirect('index');
         }
@@ -62,7 +64,7 @@ class SignupController extends NormalBaseController {
         $verify->fontSize = 20;
         $verify->length = 4;
         $verify->imageW = 150;
-        $verify->imageH = 50;
+        $verify->imageH = 40;
         $verify->entry();
     }
 

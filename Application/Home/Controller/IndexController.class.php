@@ -7,6 +7,6 @@ use Common\Controller\NormalBaseController;
 
 class IndexController extends NormalBaseController {
     public function index(){
-        echo 'Hello world!';
+        $this->display();
     }
 }

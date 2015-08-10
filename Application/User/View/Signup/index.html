@@ -1,46 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="__PUBLIC__/css/signup.index.css">
-    <title></title>
-</head>
-<body>
-<div class="container">
-    <php>
-        $flash_messages = get_flash_messages();
-        echo '<div style="max-width:500px; margin: 0 auto">';
-        foreach ($flash_messages as $msg) {
-        echo '<div class="alert '.$msg[1].'"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[0].'</div>';
-        }
-        echo '</div>';
-        </php>
+<extend name="./Template/Public/base.html" />
+
+<block name="title">BrilliantBeeS - 用户注册</block>
+
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/signup.index.css" type="text/css">
+</block>
+
+<block name="content">
     <form action="{:U('handle')}" class="form-signup" method="post">
-        <h1 class="form-signup-heading">请填入注册信息</h1>
-        <label for="inputUsername" class="sr-only">User Name</label>
-        <input type="text" id="inputUsername" class="form-control" name="user_name" placeholder="用户名" required autofocus><br>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" name="user_email" placeholder="邮箱地址" required autofocus><br>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" name="user_pwd" placeholder="密码" required><br>
-        <label for="inputPassword" class="sr-only">Confirm Password</label>
-        <input type="password" id="inputRePassword" class="form-control" name="re_user_pwd" placeholder="确认密码" required><br>
-        <input type="text" id="inputVerify" class="form-control" name="verify" placeholder="验证码" style="width: 60%">
+        <h2 class="form-signup-heading">请填入注册信息</h2>
+        <label for="inputUsername">用户名</label>
+        <input type="text" id="inputUsername" class="form-control" name="user_name" placeholder="请输入你的用户名" autofocus><br>
+        <label for="inputEmail" >邮箱地址</label>
+        <input type="email" id="inputEmail" class="form-control" name="user_email" placeholder="请输入你的邮箱地址"><br>
+        <label for="inputPassword" >登录密码</label>
+        <input type="password" id="inputPassword" class="form-control" name="user_pwd" placeholder="请输入你的登录密码" ><br>
+        <label for="inputPassword" >确认密码</label>
+        <input type="password" id="inputRePassword" class="form-control" name="re_user_pwd" placeholder="请再次输入以确认登录密码"><br>
+        <label for="inputverify">验证码</label>
+        <input type="text" id="inputVerify" class="form-control" name="verify" placeholder="请输入图片上的验证码，点击可更换图片">
         <img src="{:U('verify')}" alt="img" id="verify_img" onclick="change_verify()"><br/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top: 10px;">注册</button>
-
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="signup_btn">注册</button>
     </form>
+</block>
 
+<block name="js_file">
     <script>
-        var verify_img_url = '{:U("verify", '', '')}';
+        var verify_img_url = '{:U("verify", "", "")}';
     </script>
+    <script src="__PUBLIC__/js/jquery.md5.js" type="text/javascript"></script>
     <script src="__PUBLIC__/js/signup.index.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/js/bootstrap.min.js" type="text/javascript"></script>
-</div>
-
-</body>
-</html>
+</block>
