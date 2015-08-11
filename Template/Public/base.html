@@ -9,12 +9,8 @@
     <link rel="icon" href="__PUBLIC__/favicon.ico">
     <title><block name="title"></block></title>
     <!-- Bootstrap core CSS -->
-    <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .alert {
-            margin-bottom: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/css/base.css" type="text/css">
     <!-- 继承模板插入css文件位置 -->
     <block name="css_file"></block>
 </head>
@@ -34,7 +30,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">首页</a></li>
+                <li class="active"><a href="{:U('Home/Index/index')}">首页</a></li>
                 <li><a href="#about">关于</a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -50,14 +46,15 @@
             echo '<div class="alert '.$msg[1].'"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[0].'</div>';
             }
         </php>
-        <block name="content"></block>
     </div>
+    <block name="content"></block>
 </div><!-- /.container -->
 
 
 <!-- Bootstrap core JavaScript -->
 <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/base.js"></script>
 <block name="js_file"></block>
 </body>
 </html>
