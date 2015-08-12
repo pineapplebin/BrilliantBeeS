@@ -5,6 +5,7 @@ use Common\Controller\NormalBaseController;
 class LoginController extends NormalBaseController {
 
     public function handle() {
+        if (!IS_POST) $this->redirect('Home/Index/index');
         $login_type = I('post.login_type');
         $user_selected = I('post.user_selected');
         $user_password = I('post.user_password');
@@ -20,16 +21,22 @@ class LoginController extends NormalBaseController {
         if ($result) {
             session('user_id', $result['user_id']);
             session('user_name', $result['user_name']);
-            $this->success('登录成功');
+            flash('登录成功', 'green');
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             flash('登录失败');
-            $this->error('登录失败');
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         session(null);
         flash('你已经成功退出', 'green');
-        $this->redirect('Home/Index/index');
+        if ($_SERVER['HTTP_REFERER']) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $this->redirect('Home/Index/index');
+        }
     }
 }
