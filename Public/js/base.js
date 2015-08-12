@@ -15,4 +15,12 @@ $(function() {
         }, 500);
     }, 3000);
 
+    $('#login_btn').click(function() {
+        var pwd = $('input[name="user_password"]');
+        if (pwd.val() != '') {
+            pwd.val($.md5(pwd.val()));
+        } else {
+            return false;
+        }
+    });
 });

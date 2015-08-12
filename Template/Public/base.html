@@ -33,6 +33,36 @@
                 <li class="active"><a href="{:U('Home/Index/index')}">首页</a></li>
                 <li><a href="#about">关于</a></li>
             </ul>
+
+            <div class="navbar-right">
+            <if condition=" $is_login eq 1">
+                <!-- 登陆后导航栏显示当前用户名及简要资料-->
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">欢迎你:  {$current_user}</a></li>
+                    <li><a href="{:U('User/Login/logout')}" >退出</a></li>
+                </ul>
+
+
+                <else/>
+                <!--未登录显示 登陆框  -->
+                <form action="{:U('User/Login/handle')}"  class="navbar-form" method="post">
+                    <div class="form-group">
+                        <select name="login_type" id="login_type">
+                            <option value="name">用户名</option>
+                            <option value="email">邮箱</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="" name="user_selected" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="密码" name="user_password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success" id="login_btn">登 陆</button>
+                    <a href="{:U('User/Signup/index')}" >注册</a>
+                </form>
+            </if>
+            </div>
         </div><!--/.nav-collapse -->
     </div>
 
@@ -54,6 +84,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/jquery.md5.js"></script>
 <script src="__PUBLIC__/js/base.js"></script>
 <block name="js_file"></block>
 </body>

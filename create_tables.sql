@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `bbs_user`;
 CREATE TABLE IF NOT EXISTS `bbs_user`(
     `user_id`  int primary key auto_increment,
     `user_name` varchar(20) not null,
-    `user_psw` varchar(32) not null,
+    `user_password` varchar(32) not null,
     `user_email` varchar(32) not null,
     `user_sex` smallint default 1,
     `user_birth` varchar(10),
@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS `bbs_admin_group`(
 DROP TABLE IF EXISTS `bbs_authority`;
 CREATE TABLE IF NOT EXISTS `bbs_authority`(
     `auth_id`  int primary key auto_increment,
-    `auth_name` varchar(40)
+    `auth_name` varchar(40),
+    `auth_level` int not null default 1
 )engine=myisam default charset=utf8;
 
 -- 帖

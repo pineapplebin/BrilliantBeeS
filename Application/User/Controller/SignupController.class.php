@@ -51,8 +51,18 @@ class SignupController extends NormalBaseController {
 
         if ($can_save) {
             // 保存
-            flash('你已经成功注册', 'green');
-            $this->redirect('Home/Index/index');
+            $data = array(
+                'user_name' => $username,
+                'user_password' => $password,
+                'user_email' => $email,
+            );
+            if ($user->data($data)->add()) {
+                flash('你已经成功注册', 'green');
+                $this->redirect('Home/Index/index');
+            } else {
+                flash('注册失败，请重新尝试');
+                $this->redirect('index');
+            }
         } else {
             $this->redirect('index');
         }
