@@ -12,7 +12,10 @@ CREATE TABLE IF NOT EXISTS `bbs_user`(
     `user_birth` varchar(10),
     `user_level_group` int default 0,
     `user_special_group` int default 0,
-    `user_admin_group` int default 0
+    `user_admin_group` int default 0,
+    `user_signup_time` int not null default 0,
+    `user_token` varchar(255),
+    `user_token_time` int
 )engine=myisam default charset=utf8;
 
 -- 晋级用户组表
