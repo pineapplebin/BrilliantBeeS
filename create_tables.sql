@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS `bbs_user`(
     `user_admin_group` int default 0,
     `user_signup_time` int not null default 0,
     `user_token` varchar(255),
-    `user_token_time` int
+    `user_token_time` int,
+    UNIQUE (`user_name`),
+    UNIQUE (`user_email`)
 )engine=myisam default charset=utf8;
 
 -- 晋级用户组表
