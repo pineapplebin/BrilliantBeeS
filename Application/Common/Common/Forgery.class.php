@@ -44,14 +44,15 @@ class Forgery {
      * 第一参数为表的字段的名称，注意要写正确
      * 第二参数为随机内容的种类，分别有：
      * name（用户名字），email（邮箱地址），password（MD5处理的密码，值为123），
-     * title（标题，长度为10单词左右，无标点），text（短文章，50单词左右，有标点），
-     * number（数字，长度为5）
+     * title（标题，默认10单词左右，无标点），text（短文章，默认50单词左右，有标点），
+     * number（数字，默认长度为5）
+     * 第三参数为长度，对title，text，number有效，如果不填，则使用上述的默认长度
      *
      * @param $name
      * @param $type
      */
-    public function add_field($name, $type) {
-        $this->table_field[$name] = $type;
+    public function add_field($name, $type, $len=0) {
+        $this->table_field[$name] = array($type, $len);
     }
 
     /**
@@ -71,8 +72,8 @@ class Forgery {
             // 根据类中存储的字段数组，生成对应的内容并循环写入$data中
             foreach ($this->table_field as $key => $value) {
                 // 拼装类方法名称，得到如get_name()的方法名
-                $method_name = get_.$value;
-                $value = $this->$method_name($i);
+                $method_name = get_.$value[0];
+                $value = $this->$method_name($value[1]);
                 $data[$key] = $value;
             }
             try {
@@ -85,20 +86,16 @@ class Forgery {
         return $count;
     }
 
-    public function get_name($num=0) {
+    public function get_name($len) {
         $rand_index = rand(0, $this->name_list_len);
-        if ($num == 0) {
-            $num = rand(1, 1000);
-        }
+        $num = rand($len, 1000);
         return $this->name_list[$rand_index].$num;
     }
 
-    public function get_email($num=0) {
+    public function get_email($len) {
         $pre_rand_index = rand(0, $this->name_list_len);
         $suf_rand_index = rand(0, $this->email_suffix_list_len);
-        if ($num == 0) {
-            $num = rand(1, 1000);
-        }
+        $num = rand($len, 1000);
         return $this->name_list[$pre_rand_index].$num.$this->email_suffix_list[$suf_rand_index];
     }
 
@@ -106,9 +103,11 @@ class Forgery {
         return md5('123');
     }
 
-    public function get_title() {
+    public function get_title($len=10) {
+        if ($len <= 0) $len = 10;
         $result = '';
-        $word_num = rand(7, 12);
+        $min = $len-3<0 ? 0 : $len-3;
+        $word_num = rand($len-3, $len+3);
         for ($i = 0; $i < $word_num; $i++) {
             $rand_index = rand(0, $this->name_list_len);
             $result = $result . $this->name_list[$rand_index] . ' ';
@@ -116,10 +115,12 @@ class Forgery {
         return $result;
     }
 
-    public function get_text() {
+    public function get_text($len=50) {
+        if ($len <= 0) $len = 50;
         $result = 'a';
         $node = array(', ', '. ', '! ', '? ');
-        $word_num = rand(40, 55);
+        $min = $len-5<0 ? 0 : $len-5;
+        $word_num = rand($min, $len+5);
         for ($i = 0; $i < $word_num; $i++) {
             $rand_index = rand(0, $this->name_list_len);
             $result .= $this->name_list[$rand_index];
@@ -133,7 +134,10 @@ class Forgery {
         return $result;
     }
 
-    public function get_number() {
-        return rand(10000, 99999);
+    public function get_number($len) {
+        if ($len <= 0) return 0;
+        $min = pow(10, $len-1);
+        $max = pow(10, $len) - 1;
+        return rand($min, $max);
     }
 }
