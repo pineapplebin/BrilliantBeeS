@@ -3,6 +3,107 @@ body {
     background-color: #eee;
 }
 
+.head-container {
+    width: 95%;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .alert {
     margin-bottom: 5px;
+}
+
+ul.nav li a {
+    height: 57px;
+    padding-top: 17px;
+}
+
+.navbar-brand {
+    height: 57px;
+    padding-top: 17px;
+}
+
+.form-label {
+    text-align: center;
+    color: white;
+    width: 60px;
+}
+
+.form-control {
+    margin-bottom: 5px;
+    padding: 0 12px;
+    height: 20px;
+    
+}
+
+.my-form-group {
+    display: block;
+    line-height: 1;
+}
+
+.navbar-form {
+    padding: 0;
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+#login-btn {
+    padding: 0 20px;
+    margin-bottom: 5px;
+}
+
+.select-btn {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.select-btn:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.dropdown-menu {
+    min-width: 40px;
+}
+
+.dropdown-menu > li > a {
+    padding: 3px 10px;
+}
+
+
+#remember-span {
+    cursor: pointer;
+    color: white;
+}
+
+#fake-checkbox {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    background: white;
+    vertical-align: -20%;
+    content: '';
+    text-align: center;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+#fake-checked {
+    opacity: 0.2;
+    display: block;
+    width: 70%;
+    height: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2px;
+    vertical-align: middle;
+    background: #449D44;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
 }

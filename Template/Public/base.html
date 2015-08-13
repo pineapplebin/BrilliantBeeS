@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="__PUBLIC__/favicon.ico">
@@ -18,7 +18,7 @@
 <body>
 
 <nav class="navbar navbar-inverse">
-    <div class="container">
+    <div class="head-container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -35,33 +35,45 @@
             </ul>
 
             <div class="navbar-right">
-            <if condition=" $is_login eq 1">
-                <!-- 登陆后导航栏显示当前用户名及简要资料-->
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">欢迎你:  {$current_user}</a></li>
-                    <li><a href="{:U('User/Login/logout')}" >退出</a></li>
-                </ul>
+                <if condition=" $is_login eq 1">
+                    <!-- 登陆后导航栏显示当前用户名及简要资料-->
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">欢迎你:  {$current_user}</a></li>
+                        <li><a href="{:U('User/Login/logout')}" >退出</a></li>
+                    </ul>
 
 
-                <else/>
-                <!--未登录显示 登陆框  -->
-                <form action="{:U('User/Login/handle')}"  class="navbar-form" method="post">
-                    <div class="form-group">
-                        <select name="login_type" id="login_type">
-                            <option value="name">用户名</option>
-                            <option value="email">邮箱</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="" name="user_selected" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="密码" name="user_password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success" id="login_btn">登 陆</button>
-                    <a href="{:U('User/Signup/index')}" >注册</a>
-                </form>
-            </if>
+                    <else/>
+                    <!--未登录显示 登陆框  -->
+                    <form action="{:U('User/Login/handle')}"  class="navbar-form" method="post">
+                        <div style="display: inline-block;">
+                            <div class="my-form-group">
+                                <div class="form-label" style="display: inline-block">
+                                    <select name="login_type" style="display: none">
+                                        <option value="name" id="login_type_select"></option>
+                                    </select>
+                                    <div class="dropdown">
+                                        <a class="select-btn dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">用户名<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                            <li><a href="javascript:" id="select-user">用户名</a></li>
+                                            <li><a href="javascript:" id="select-email">邮箱</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="text" name="user_selected" class="form-control">
+                                <button type="submit" class="btn btn-success" id="login-btn">登 陆</button>
+                                <a href="{:U('User/Signup/index')}" style="margin-left: 5px;">注册</a>
+                            </div>
+                            <div class="my-form-group">
+                                <label for="user_password" class="form-label">密码</label>
+                                <input type="password" id="user_password" name="user_password" class="form-control">
+                                <span id="remember-span">自动登录 <span id="fake-checkbox"><span id="fake-checked"></span></span></span>
+                                <input type="checkbox" name="remember_me" style="display: none;"/>
+                                <a href="" style="margin-left: 5px;">找回密码</a>
+                            </div>
+                        </div>
+                    </form>
+                </if>
             </div>
         </div><!--/.nav-collapse -->
     </div>

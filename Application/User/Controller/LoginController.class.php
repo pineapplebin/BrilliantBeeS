@@ -21,6 +21,10 @@ class LoginController extends NormalBaseController {
         if ($result) {
             session('user_id', $result['user_id']);
             session('user_name', $result['user_name']);
+            if (I('remember_me')) {
+                // 长期登录操作
+                flash('已点击自动登录', 'blue');
+            }
             flash('登录成功', 'green');
             redirect($_SERVER['HTTP_REFERER']);
         } else {
