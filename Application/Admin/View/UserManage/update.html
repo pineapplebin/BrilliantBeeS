@@ -1,0 +1,70 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="title">更改用户资料</block>
+<block name="content">
+
+    <form action="{:U('update')}" method="post">
+        <!-- 隐藏域传递user_id,用于确认修改的对象-->
+        <input type="hidden" name="user_id" value="{$info.user_id}"/>
+        <!-- 表格-->
+        <table class="table table-bordered table-hover ">
+            <tr class="info">
+                <td>ID</td>
+                <td>{$info.user_id}</td>
+            </tr>
+            <tr class="active">
+                <td>用户名</td>
+                <td>{$info.user_name}</td>
+            </tr>
+            <tr class="info">
+                <td>密码</td>
+                <td>{$info.user_password}</td>
+            </tr>
+            <tr class="active">
+                <td>邮箱</td>
+                <td>{$info.user_email}</td>
+            </tr>
+            <tr class="info">
+                <td>晋级用户组</td>
+                <td>
+                    <select name="user_level_group">
+                        <option value="0" {$Lv0}>不属于</option>
+                        <option value="1" {$Lv1}>Lv(01)</option>
+                        <option value="2" {$Lv2}>Lv(02)</option>
+                        <option value="3" {$Lv3}>Lv(03)</option>
+                        <option value="4" {$Lv4}>Lv(04)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="active">
+                <td>特殊用户组</td>
+                <td>
+                    <select name="user_special_group">
+                        <option value="0" {$Sp0}>不属于</option>
+                        <option value="1" {$Sp1}>禁止IP</option>
+                        <option value="2" {$Sp2}>禁止发言</option>
+                        <option value="3" {$Sp3}>游客</option>
+                        <option value="4" {$Sp4}>待验证</option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="info">
+                <td>管理用户组</td>
+                <td>
+                    <select name="user_admin_group">
+                        <option value="0" {$Ad0}>不属于</option>
+                        <option value="1" {$Ad1}>版主助理</option>
+                        <option value="2" {$Ad2}>版主</option>
+                        <option value="3" {$Ad3}>超级版主</option>
+                        <option value="4" {$Ad4}>管理员</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div style="margin:0 auto; width: 200px">
+            <a href="{:U('index')}"><input type="button" value="返回"></a>
+            <input type="submit" value="保存修改"/>
+        </div>
+    </form>
+</block>>
+

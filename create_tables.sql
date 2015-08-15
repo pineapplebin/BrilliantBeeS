@@ -5,9 +5,9 @@ USE `brilliant_bee_s`;
 DROP TABLE IF EXISTS `bbs_user`;
 CREATE TABLE IF NOT EXISTS `bbs_user`(
     `user_id`  int primary key auto_increment,
-    `user_name` varchar(20) not null,
+    `user_name` varchar(20) not null unique,
     `user_password` varchar(32) not null,
-    `user_email` varchar(32) not null,
+    `user_email` varchar(32) not null unique,
     `user_sex` smallint default 1,
     `user_birth` varchar(10),
     `user_level_group` int default 0,

@@ -1,0 +1,53 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="title">UserManage</block>
+
+<block name="content">
+    <form action="{:U('index')}" method="post">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="user_name" placeholder="用户名" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="summit" class="btn btn-default"  aria-haspopup="true" aria-expanded="false">搜索</button>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <a href="{:U('add')}"><input class="btn btn-default" style="float: right" type="button" value="增加用户"></a>
+
+        </div><!-- /.row -->
+    </form>
+
+    <br/>
+
+    <!-- 表格-->
+    <table class="table table-bordered table-hover">
+        <!--表头 -->
+        <tr class="info">
+            <td>ID</td>
+            <td>用户名</td>
+            <td>密码</td>
+            <td>邮箱</td>
+            <td>晋级用户组</td>
+            <td>特殊用户组</td>
+            <td>管理用户组</td>
+            <td>修改</td>
+            <td>删除</td>
+        </tr>
+        <!-- 表内容-->
+        <volist name="list" id="v">
+            <tr class="active">
+                <td>{$v.user_id}</td>
+                <td>{$v.user_name}</td>
+                <td>{$v.user_password}</td>
+                <td>{$v.user_email}</td>
+                <td>{$v.user_level_group}</td>
+                <td>{$v.user_special_group}</td>
+                <td>{$v.user_admin_group}</td>
+                <td><a href="__MODULE__/UserManage/update/user_id/{$v.user_id}">修改</a></td>
+                <td><a href="__MODULE__/UserManage/delete/user_id/{$v.user_id}" style="color: firebrick">删除</a></td>
+            </tr>
+        </volist>
+    </table>
+    <div>{$page}</div>
+</block>

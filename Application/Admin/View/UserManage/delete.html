@@ -1,0 +1,14 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="title">删除用户</block>
+<block name="content">
+    <form action="{:U('delete')}" method="post">
+        <!-- 隐藏域传递user_id,用于确认删除的对象-->
+        <input type="hidden" name="user_id" value="{$user_id}"/>
+        <h1>真的要删除该用户??</h1>
+        <div style="margin:0 auto; width: 200px">
+            <a href="{:U('index')}"><input type="button" value="返回"></a>
+            <input type="submit" value="确认"/>
+        </div>
+    </form>
+</block>
