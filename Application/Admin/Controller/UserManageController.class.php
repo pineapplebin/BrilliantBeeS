@@ -29,7 +29,7 @@ class UserManageController extends AdminBaseController {
             $page -> setConfig('prev','上一页');
             $page -> setConfig('next','下一页');
             // 数据集
-            $list = $user -> limit($page->firstRow.','.$page->listRows)-> select();
+            $list = $user ->order('user_id DESC')-> limit($page->firstRow.','.$page->listRows)-> select();
 
         }
         $show = $page -> show();

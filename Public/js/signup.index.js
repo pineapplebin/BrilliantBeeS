@@ -16,9 +16,9 @@ $(function() {
     $('#signup_btn').click(function() {
         $('.form-warning').remove();
         var username = $('input[name=user_name]');
-        var email = $('input[name=user_email');
+        var email = $('input[name=user_email]');
         var pwd = $('input[name=user_pwd]');
-        var re_pwd = $('input[name=re_user_pwd');
+        var re_pwd = $('input[name=re_user_pwd]');
         var can_post = true;
 
         var warning_tag_start = '<span class="form-warning">';
