@@ -11,23 +11,31 @@ use Common\Controller\AdminBaseController;
 class UserManageController extends AdminBaseController {
     // 用户信息显示
     public function index(){
-        //查询用户具体用户
-        // 数据分页
+        //查询用户具体用户 // 数据分页
         $user = M('user');
         if(!empty($_POST)){
             $page = new \Think\Page(1,1);
             // 数据集
             $condition['user_name'] = I('user_name');
             $list = $user -> where($condition)-> limit($page->firstRow.','.$page->listRows)-> select();
+            $this -> assign('count',1);           // 总记录数
 
+            if(count($list)== 0){
+                $notice = "该用户不存在!";
+                $this -> assign('notice',$notice);
+                $this -> assign('count',0);       // 总记录数
+            }
 
+        } else {                                  // 没有查询用户，默认显示全部用户信息
+            $count = $user -> count();            // 总条数
+            $page = new \Think\Page($count,7);    // 设置每页显示条数为7条
 
-        } else {                                //没有查询用户，默认显示全部用户信息
-            $count = $user -> count();          // 总条数
-            $page = new \Think\Page($count,10);  // 每页显示条数
             // 样式定制
+            $page -> setConfig('first','<<');
+            $page -> setConfig('last','>>');
             $page -> setConfig('prev','上一页');
             $page -> setConfig('next','下一页');
+            $this -> assign('count',$count);     //总记录数
             // 数据集
             $list = $user ->order('user_id DESC')-> limit($page->firstRow.','.$page->listRows)-> select();
 
@@ -35,9 +43,7 @@ class UserManageController extends AdminBaseController {
         $show = $page -> show();
         $this -> assign('list',$list);
         $this -> assign('page',$show);
-
         $this -> display();
-
     }
 
     // 修改用户数据
@@ -81,9 +87,7 @@ class UserManageController extends AdminBaseController {
             $id = I('post.user_id');
             $condition['user_id'] = array('in',$id);
 
-//            $condition['user_id'] = I('post.user_id');
             $result = $user->where($condition)->delete();
-
 
             if ($result != false)
                 flash('删除成功!', 'green');
