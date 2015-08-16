@@ -3,7 +3,7 @@
 <block name="title">UserManage</block>
 
 <block name="content">
-    <form action="{:U('index')}" method="post">
+    <form action="{:U('index')}" method="post" id="search">
         <div class="row">
             <div class="col-lg-5">
                 <div class="input-group">
@@ -14,40 +14,58 @@
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <a href="{:U('add')}"><input class="btn btn-default" style="float: right" type="button" value="增加用户"></a>
-
         </div><!-- /.row -->
     </form>
 
     <br/>
 
-    <!-- 表格-->
-    <table class="table table-bordered table-hover">
-        <!--表头 -->
-        <tr class="info">
-            <td>ID</td>
-            <td>用户名</td>
-            <td>密码</td>
-            <td>邮箱</td>
-            <td>晋级用户组</td>
-            <td>特殊用户组</td>
-            <td>管理用户组</td>
-            <td>修改</td>
-            <td>删除</td>
-        </tr>
-        <!-- 表内容-->
-        <volist name="list" id="v">
-            <tr class="active">
-                <td>{$v.user_id}</td>
-                <td>{$v.user_name}</td>
-                <td>{$v.user_password}</td>
-                <td>{$v.user_email}</td>
-                <td>{$v.user_level_group}</td>
-                <td>{$v.user_special_group}</td>
-                <td>{$v.user_admin_group}</td>
-                <td><a href="__MODULE__/UserManage/update/user_id/{$v.user_id}">修改</a></td>
-                <td><a href="__MODULE__/UserManage/delete/user_id/{$v.user_id}" style="color: firebrick">删除</a></td>
+    <form action="{:U('delete_all')}" method="post" id="delete">
+        <!-- 表格-->
+        <table class="table table-bordered table-hover">
+            <!--表头 -->
+            <tr class="info">
+                <td></td>
+                <td>ID</td>
+                <td>用户名</td>
+                <td>密码</td>
+                <td>邮箱</td>
+                <td>晋级用户组</td>
+                <td>特殊用户组</td>
+                <td>管理用户组</td>
+                <td>修改</td>
+                <td>删除</td>
             </tr>
-        </volist>
-    </table>
+
+            <!-- 表内容-->
+            <volist name="list" id="v">
+                <tr class="active">
+                    <td>
+                        <div class="checkbox">
+                            <!-- checkbox 的name 属性为一个数组,表单提交时,会将勾选的value值存到名为name的数组-->
+                            <label><input type="checkbox" name="delete_all[]" value="{$v.user_id}"></label>
+                        </div>
+                    </td>
+                    <td>{$v.user_id}</td>
+                    <td>{$v.user_name}</td>
+                    <td>{$v.user_password}</td>
+                    <td>{$v.user_email}</td>
+                    <td>{$v.user_level_group}</td>
+                    <td>{$v.user_special_group}</td>
+                    <td>{$v.user_admin_group}</td>
+                    <td><a href="__MODULE__/UserManage/update/user_id/{$v.user_id}">修改</a></td>
+                    <td><a href="__MODULE__/UserManage/delete/user_id/{$v.user_id}" style="color: firebrick">删除</a></td>
+                </tr>
+            </volist>
+        </table>
+        <div class="checkbox" >
+            <label><input type="checkbox" id="check_all" onclick="checkAll(0)">全选</label>
+            <input class="btn btn-default" type="button" onclick="deleteAll()" value="批量删除用户">
+        </div>
+    </form>
+
     <div>{$page}</div>
+</block>
+
+<block name="js_file">
+    <script src="__PUBLIC__/js/admin.userManage.js"></script>
 </block>

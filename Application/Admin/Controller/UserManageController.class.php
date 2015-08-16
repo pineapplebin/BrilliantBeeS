@@ -78,8 +78,12 @@ class UserManageController extends AdminBaseController {
         $user = M('user');
         // 从删除页面转来，删除数据  （PS：post里有数据表明是删除面的表单传来的数据）
         if(!empty($_POST)){
-            $condition['user_id'] = I('post.user_id');
+            $id = I('post.user_id');
+            $condition['user_id'] = array('in',$id);
+
+//            $condition['user_id'] = I('post.user_id');
             $result = $user->where($condition)->delete();
+
 
             if ($result != false)
                 flash('删除成功!', 'green');
@@ -94,7 +98,25 @@ class UserManageController extends AdminBaseController {
         }
     }
 
-   // 添加用户
+    // 批量删除用户
+    function delete_all(){
+        $user = M('user');
+        if(!empty($_POST)){
+            $id = I('post.delete_all');
+            $condition['user_id'] = array('in',$id);
+            $result = $user->where($condition)->delete();
+            if ($result != false)
+                flash('删除成功!', 'green');
+            else
+                flash('删除失败!');
+
+            $this -> redirect('index');
+        }else{
+            $this -> display('index');
+        }
+    }
+
+    // 添加用户
     public function add(){
         //两个逻辑① 展现表单 ② 接收表单数据
         $user = M('user');
