@@ -1,14 +1,18 @@
 <?php
 /**
- * 测试函数
+ * 格式化打印数组函数
+ * void print_array($array[, $boolean)
+ *
  * @param $arr
  */
-function i_p($arr) {
-    echo '<br />'.$arr;
+function print_array($arr, $strict=false) {
+    dump($arr, 1, '<pre>', $strict);
 }
 
 /**
  * 消息闪现函数
+ * void flash($string[, $designated_string])
+ *
  * 在控制器视图函数中以需要闪现的内容为参数调用此函数，
  * 然后即可在下个显示的页面的模板中以get_flash_messages()函数显示闪现内容
  *
@@ -42,6 +46,7 @@ function flash($msg, $color='red') {
 
 /**
  * 获取闪现消息函数
+ * array get_flash_messages()
  * 在模板中调用此函数，并将得到的数组处理然后输出即可得到闪现消息
  *
  * @return 返回消息数组

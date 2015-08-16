@@ -1,0 +1,32 @@
+.panel-body {
+    padding: 0;
+}
+
+.panel-warning > .panel-heading {
+    background-color: palegoldenrod;
+}
+
+.list-group {
+    margin-bottom: 0;
+}
+
+.list-group div {
+    display: inline-block;
+}
+
+.setting-label {
+    width: 48%;
+    font-weight: bold;
+}
+
+.setting-option {
+    width: 48%;
+}
+
+.setting-option input[type="text"] {
+    width: 90%;
+}
+
+.setting-option input[type="radio"] {
+    margin-right: 30%;
+}

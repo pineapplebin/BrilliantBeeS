@@ -28,7 +28,7 @@ class LoginController extends NormalBaseController {
             flash('登录成功', 'green');
             redirect($_SERVER['HTTP_REFERER']);
         } else {
-            flash('登录失败');
+            flash('登录失败，请再次尝试');
             redirect($_SERVER['HTTP_REFERER']);
         }
     }

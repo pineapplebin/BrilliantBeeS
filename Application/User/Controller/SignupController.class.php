@@ -5,6 +5,10 @@ use Common\Controller\NormalBaseController;
 class SignupController extends NormalBaseController {
 
     public function index() {
+        if (!C('OPEN_SIGNUP')) {
+            $this->error('对不起，本网站注册功能暂不启用');
+        }
+        $this->assign('open_verify', C('OPEN_SIGNUP_VERIFY'));
         $this->display();
     }
 
@@ -43,10 +47,12 @@ class SignupController extends NormalBaseController {
         }
 
         // 验证验证码输入
-        $verify = new \Think\Verify();
-        if (!$verify->check($verify_text)) {
-            $can_save = false;
-            flash('验证码不正确');
+        if (C('OPEN_SIGNUP_VERIFY')) {
+            $verify = new \Think\Verify();
+            if (!$verify->check($verify_text)) {
+                $can_save = false;
+                flash('验证码不正确');
+            }
         }
 
         if ($can_save) {

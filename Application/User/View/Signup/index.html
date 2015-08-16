@@ -1,6 +1,6 @@
 <extend name="./Template/Public/base.html" />
 
-<block name="title">BrilliantBeeS - 用户注册</block>
+<block name="title">{:C('SITE_NAME')} - 用户注册</block>
 
 <block name="css_file">
     <link rel="stylesheet" href="__PUBLIC__/css/signup.index.css" type="text/css">
@@ -17,9 +17,11 @@
         <input type="password" id="inputPassword" class="form-control" name="user_pwd" placeholder="请输入你的登录密码" ><br>
         <label for="inputPassword" >确认密码</label>
         <input type="password" id="inputRePassword" class="form-control" name="re_user_pwd" placeholder="请再次输入以确认登录密码"><br>
-        <label for="inputverify">验证码</label>
-        <input type="text" id="inputVerify" class="form-control" name="verify" placeholder="请输入图片上的验证码，点击可更换图片">
-        <img src="{:U('verify')}" alt="img" id="verify_img" onclick="change_verify()"><br/>
+        <if condition="$open_verify eq 1">
+            <label for="inputverify">验证码</label>
+            <input type="text" id="inputVerify" class="form-control" name="verify" placeholder="请输入图片上的验证码，点击可更换图片" />
+            <img src="{:U('verify')}" alt="img" id="verify_img" onclick="change_verify()"><br/>
+        </if>
         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signup_btn">注册</button>
     </form>
 </block>

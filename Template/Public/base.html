@@ -11,6 +11,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="__PUBLIC__/css/base.css" type="text/css">
+    <style>
+        .container {
+            width: {:C('SITE_WIDTH')};
+        }
+    </style>
     <!-- 继承模板插入css文件位置 -->
     <block name="css_file"></block>
 </head>
@@ -21,12 +26,11 @@
     <div class="head-container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{:U('Home/Index/index')}">BrilliantBeeS</a>
+            <a class="navbar-brand" href="{:U('Home/Index/index')}">{:C('SITE_NAME')}</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">

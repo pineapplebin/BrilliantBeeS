@@ -15,6 +15,9 @@ $(function() {
         }, 500);
     }, 3000);
 
+    /**
+     * 登录密码MD5加密
+     */
     $('#login-btn').click(function() {
         var pwd = $('input[name="user_password"]');
         var user = $('input[name="user_selected"]');
@@ -25,14 +28,22 @@ $(function() {
         }
     });
 
+    /**
+     * 选择登录方式
+     */
     $('#select-user').click(function() {
+        $('input[name="user_selected"]').focus();
         change_select('用户名', 'name');
     });
 
     $('#select-email').click(function() {
+        $('input[name="user_selected"]').focus();
         change_select('邮箱', 'email');
     });
 
+    /**
+     * 选择记住我
+     */
     $('#remember-span').click(function() {
         var fake_dot = $('#fake-checked');
         var true_dot = $('input[name="remember_me"]');
