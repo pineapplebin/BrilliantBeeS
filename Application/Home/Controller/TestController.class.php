@@ -20,7 +20,7 @@ class TestController extends NormalBaseController {
 
         // 添加完字段之后，执行fake方法即可生成并写入数据库，参数为需要生成的数量
         // fake返回成功插入的数量
-        $result = $forgery->fake(10);
+        $result = $forgery->fake(100);
 
         echo '<html><head><meta charset="UTF-8"></head><body>';
         echo '<p>成功插入了'.$result.'条数据，快去数据库查看吧</p>';

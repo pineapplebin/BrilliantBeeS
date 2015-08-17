@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link rel="icon" href="__PUBLIC__/favicon.ico">
     <title><block name="title"></block></title>
     <!-- Bootstrap core CSS -->
@@ -42,10 +42,10 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">后台首页</a></li>
+                <li class="active"><a href="{:U('Index/index')}">后台首页</a></li>
                 <li><a href="#">用户组权限管理</a></li>
                 <li><a href="#">论坛版块管理</a></li>
-                <li><a href="#">用户管理</a></li>
+                <li><a href="{:U('UserManage/index')}">用户管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="">Nav item</a></li>
@@ -69,7 +69,9 @@
                     }
                 </php>
             </div>
+
             <block name="content"></block>
+
         </div>
     </div>
 </div>
