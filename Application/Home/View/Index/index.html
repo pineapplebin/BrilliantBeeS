@@ -1,3 +1,22 @@
 <extend name="./Template/Public/base.html"/>
 
 <block name="title">BrilliantBeeS - 首页</block>
+<block name="content">
+<div class="page-header">
+    <h1>Choose a plate</h1>
+</div>
+<div class="row">
+    <foreach name="plate" item="pla">
+    <div class="col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$pla.plate_name}</h3>
+            </div>
+            <div class="panel-body">
+                {$pla.plate_desc}
+            </div>
+        </div>
+    </div>
+    </foreach>
+</div>
+</block>

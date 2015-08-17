@@ -86,6 +86,8 @@ DROP TABLE IF EXISTS `bbs_plate`;
 CREATE TABLE IF NOT EXISTS `bbs_plate`(
     `plate_id`  int primary key auto_increment,
     `plate_name` varchar(40) not null,
+    `plate_desc` VARCHAR(255) not null,
     `plate_post_count` int not null default 0,
-    `plate_reply_count` int not null default 0
+    `plate_reply_count` int not null default 0,
+    `plate_create_time` int not null default 0
 )engine=myisam default charset=utf8;
