@@ -27,11 +27,9 @@ function deleteAll(){
 function checkAll(){
     var all = document.getElementById("check_all");             // 获取全选checkbox
     var items = document.getElementsByName("delete_all[]");     // 获取全部的checkbox
-
     for(var i=0; i<items.length;i++){
             items[i].checked = all.checked;                     //所有的checkbox的'选中'属性和全选的一样
     }
-
 }
 
 /*
@@ -40,15 +38,12 @@ function checkAll(){
 
 $(function(){
     $('#confirm_btn').click(function(){
-
         var password = $('input[name=user_password]');
         var can_post = true;
-
         if(password.val() != ''){
             var temp = $.md5(password.val());
             password.val(temp);
         }
-
         return can_post;
 
     });
