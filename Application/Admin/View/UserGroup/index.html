@@ -1,0 +1,116 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="title">后台管理</block>
+<block name="js">
+	<script type="text/javascript">
+	// 动态添加select中的项option:
+	function addOption(){  	  
+		var sub = document.getElementById('subitem');
+     if(document.getElementById('paritem').value=='admin_group'){  	    
+     	//清空option
+     	while(sub.length>0) sub.remove(sub.length-1);
+     	//子项数据
+     	var admin_arr = Array("","","admin","管理员","super_moderator","超级版主","moderator","版主","noviciate_moderator","见习版主");
+
+     	//新建option
+     	for(var i=0;i<10;i=i+2){
+     		var ad=document.createElement('option');
+     		ad.value=admin_arr[i];
+     		ad.text=admin_arr[i+1];		
+     		sub.add(ad,null);
+     		}     	
+ 		} 
+     else if(document.getElementById('paritem').value=='special_group'){    	
+     	//清空option
+     	while(sub.length>0) sub.remove(sub.length-1);
+     	//子项数据
+     	 var admin_arr = Array("","","banned_to_post","禁止发言","banned_to_visit","禁止访问","ban_ip","用户IP被禁止","is_tourist","游客","wait_for_verify","等待验证");
+     	//新建option
+     	for(var i=0;i<12;i=i+2){
+     		var ad=document.createElement('option');
+     		ad.value=admin_arr[i];
+     		ad.text=admin_arr[i+1];		
+     		sub.add(ad,null);
+     		}    	
+     }
+     else {  
+     	 //清空option
+     	while(sub.length>0) sub.remove(sub.length-1);
+     	//子项数据
+     	var admin_arr = Array("","","level1","1级","level2","2级","level3","3级","level4","4级","level5","5级","level6","6级","level7","7级","level8","8级","level9","9级","levelx","10级");
+     	//新建option
+     	for(var i=0;i<22;i=i+2){
+     		var ad=document.createElement('option');
+     		ad.value=admin_arr[i];
+     		ad.text=admin_arr[i+1];		
+     		sub.add(ad,null);
+     		}     	
+     }
+     }
+
+     //实现一个form提交两个action
+     function antherAction(){     		
+     		document.forms['tform'].action="{:U('edit_auth')}";
+     		document.forms['tform'].subitem();     		
+     }
+
+	</script>
+</block>
+
+<block name="content">
+   <!-- 巨幕 -->
+   <div class="jumbotron"><h1>BrilliantBeeS</h1></div>	
+	<form action="{:U('show_auth')}" method="post" id="tform">
+	<table class="table table-bordered">
+		<tr>
+			<th  style="width:90px">
+				<select id="paritem" name="paritem" onchange ="addOption()" style="width:100px">	
+					<option></option>
+					<option value="admin_group">管理组</option>
+					<option value="level_group">晋级用户组</option>
+					<option value="special_group">特殊用户组</option>
+				</select>
+			</th>
+			<th style="width:90px">
+				<select id="subitem" name="subitem" style="width:100px">
+					<option></option>
+					<option value="admin">管理员</option>
+					<option value="super_moderator">超级版主</option>
+					<option value="moderator">版主</option>
+					<option value="noviciate_moderator">见习版主</option>
+				</select>
+			</th>
+			<th style="width:50px"><button type="submit" class="btn btn-default">查看</button></th>
+			<div>
+			<th>			
+				<button type="submit" class="btn btn-default" onclick="antherAction()">编辑</button>
+			</th>
+			</div>
+		</tr>
+	</table>
+	<input type="hidden" name="table_name" value="{$table}" />
+	<input type="hidden" name="attribute_name" value="{$attribute}" />
+	</form>
+	<div><h3>{$table}</h3><h4>{$attribute}</h4></div>
+	<div style="float:left;width:50%;background-color:#F2F2F2">
+    <table class="table table-hover">
+		<tr><th>权限(共35项)</th></tr>
+		<foreach name="auth_list" item="au">
+			<tr>
+			<td>{$au.auth_name}</td>			
+			</tr>
+		</foreach>
+	</table>
+	</div>
+	<div style="float:left;width:50%;background-color:#F2F2F2">
+    <table class="table table-hover">
+		<tr><th>(1表示有此权限，0表示没有此权限)</th></tr>
+		<foreach name="group_list" item="gr">
+			<tr>
+			<td>{$gr}</td>			
+			</tr>
+		</foreach>
+	</table>
+</div>
+
+</block>

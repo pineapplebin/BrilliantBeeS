@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>权限编辑</title>
+	<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css"> 
+    <script language="JavaScript"> 
+    function back_to(){
+        self.location='{:U("index")}';         
+    }
+    </script>    
+</head>
+<body>
+<div style="margin-left:20%;width:800px;float:left;text-align:center;border:2px solid black;border-radius: 40px;">
+	<h2>用户组：{$table}</h2>
+	<h4>子管理组：{$attribute}</h4>
+	<div style="width:50%;float:left">	
+		<table class="table table-hover">	
+			<tr><th style="text-align:center">权限</th></tr>		
+			<foreach name="auth_list" item="au">
+				<tr>
+					<td style="height:50px">{$au.auth_name}</td>
+				</tr>
+			</foreach>
+		</table>
+	</div>
+
+	<div style="width:50%;float:left">
+	<form action="{:U('new_auth')}" method="post">
+		<table class="table table-hover">	
+		<tr><th style="text-align:center">修改前</th><th style="text-align:center">修改</th></tr>		
+			<foreach name="group_list" item="gr">
+				<tr>
+					<td style="height:50px">{$gr}</td>
+					<td style="height:50px">					
+					<input type="checkbox" name="selects{$num++}" value="1" />					
+					</td>
+
+				</tr>			
+			</foreach>
+		</table>
+		<button type="submit" class="btn btn-default">确认</button>
+		<button type="reset" class="btn btn-default">重置</button>	
+		<button type="button" class="btn btn-default" onclick="back_to()">退出</button>	
+		<input type="hidden" name="table_name" value="{$table}" />
+		<input type="hidden" name="attribute_name" value="{$attribute}" />
+	</form>
+	</div>
+</div>
+</body>
+</html>

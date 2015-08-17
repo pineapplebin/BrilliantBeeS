@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css">
     <!-- 继承模板插入css文件位置 -->
     <block name="css_file"></block>
+    <block name="js"></block>
 </head>
 
 <body>
@@ -42,17 +43,10 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-<<<<<<< HEAD
                 <li class="active"><a href="{:U('Index/index')}">后台首页</a></li>
-                <li><a href="#">用户组权限管理</a></li>
-                <li><a href="#">论坛版块管理</a></li>
+                <li><a href="{:U('UserGroup/index')}">用户组权限管理</a></li>
+                <li><a href="{:U('PlateManage/index')}">论坛版块管理</a></li>
                 <li><a href="{:U('UserManage/index')}">用户管理</a></li>
-=======
-                <li class="active"><a href="#" id="homepage">后台首页</a></li>
-                <li><a href="#">用户组权限管理</a></li>
-                <li><a href="{:U('./Admin/PlateManage/plateManage')}">论坛版块管理</a></li>
-                <li><a href="#">用户管理</a></li>
->>>>>>> origin/feature-peng
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="">Nav item</a></li>
