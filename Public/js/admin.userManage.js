@@ -25,16 +25,19 @@ function deleteAll(){
 * 全选
 */
 function checkAll(){
-    var all = document.getElementById("check_all");             // 获取全选checkbox
-    var items = document.getElementsByName("delete_all[]");     // 获取全部的checkbox
-    for(var i=0; i<items.length;i++){
-            items[i].checked = all.checked;                     //所有的checkbox的'选中'属性和全选的一样
-    }
+
 }
 
 /*
 * 确认添加用户
 */
+
+function Trim(str) {
+    var result;
+    result = str.replace(/(^\s+)|(\s+$)/g,"");
+    result = result.replace(/\s/g,"");
+    return result;
+}
 
 $(function(){
     $('#confirm_btn').click(function(){
@@ -46,5 +49,32 @@ $(function(){
         }
         return can_post;
 
+    });
+
+    $('input[type="checkbox"]').click(function() {
+        var id = this.id.split('-')[1];
+        var tr_id = 'tr-' + id;
+        if (this.checked == true) {
+            $('#'+tr_id).addClass('active');
+        } else {
+            $('#'+tr_id).removeClass('active');
+        }
+    });
+
+    $('#check_all').click(function() {
+        // 获取全选checkbox
+        var all = document.getElementById("check_all");
+        // 获取全部的checkbox
+        var items = document.getElementsByName("delete_all[]");
+        for(var i=0; i<items.length;i++){
+            //所有的checkbox的'选中'属性和全选的一样
+            items[i].checked = all.checked;
+            var id = items[i].id.split('-')[1];
+            if (all.checked == true) {
+                $('#tr-'+id).addClass('active');
+            } else {
+                $('#tr-'+id).removeClass('active');
+            }
+        }
     });
 });

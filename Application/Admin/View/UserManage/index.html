@@ -2,6 +2,10 @@
 
 <block name="title">UserManage</block>
 
+<block name="css_file">
+    <link href="__PUBLIC__/css/admin.usermanage.css" type="text/css" rel="stylesheet"></link>
+</block>
+
 <block name="content">
     <form action="{:U('index')}" method="post" id="search">
         <div class="row">
@@ -29,7 +33,7 @@
 
     <form action="{:U('delete_all')}" method="post" id="delete">
         <!-- 表格-->
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table class="table table-bordered table-condensed table-hover">
             <!--表头 -->
             <tr class="info">
                 <td>#</td>
@@ -46,11 +50,11 @@
 
             <!-- 表内容-->
             <volist name="list" id="v">
-                <tr name="tr" class="">
+                <tr name="tr" class="" id="tr-{$v.user_id}">
                     <td>
                         <div class="checkbox">
                             <!-- checkbox 的name 属性为一个数组,表单提交时,会将勾选的value值存到名为name的数组-->
-                            <label><input type="checkbox" name="delete_all[]" value="{$v.user_id}"></label>
+                            <label><input id="checkbox-{$v.user_id}" type="checkbox" name="delete_all[]" value="{$v.user_id}"></label>
                         </div>
                     </td>
                     <td>{$v.user_id}</td>
@@ -73,7 +77,7 @@
             <label><input type="checkbox" id="check_all" onclick="checkAll()">全选</label>&nbsp;&nbsp;&nbsp;
             <input class="btn btn-danger" type="button" onclick="deleteAll()" value="批量删除用户">
         </div>
-        <div>{$page}</div>
+        <div id="page-div">{$page}</div>
     </form>
 
 
