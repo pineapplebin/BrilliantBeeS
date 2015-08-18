@@ -16,6 +16,9 @@ class UserManageController extends AdminBaseController {
         if(!empty($_POST)){
             $page = new \Think\Page(1,1);
             // 数据集
+            if(I('user_name')== ''){
+                $this -> redirect('index');
+            }
             $condition['user_name'] = I('user_name');
             $list = $user -> where($condition)-> limit($page->firstRow.','.$page->listRows)-> select();
             $this -> assign('count',1);           // 总记录数
@@ -28,7 +31,7 @@ class UserManageController extends AdminBaseController {
 
         } else {                                  // 没有查询用户，默认显示全部用户信息
             $count = $user -> count();            // 总条数
-            $page = new \Think\Page($count,7);    // 设置每页显示条数为7条
+            $page = new \Think\Page($count,10);    // 设置每页显示条数为7条
 
             // 样式定制
             $page -> setConfig('prev','上一页');
@@ -65,6 +68,10 @@ class UserManageController extends AdminBaseController {
         // （否则就是）点击修改链接时，将数据转向修改页面并展示出来
         } else {
             $info = $user -> find($user_id);  // 一维数组
+            if($info == NULL){
+                flash('用户不存在!');
+                $this -> redirect('index');
+            }
             $this -> assign('info',$info);
 
             $level = $info['user_level_group'];
@@ -123,7 +130,6 @@ class UserManageController extends AdminBaseController {
     // 添加用户
     public function add(){
         //两个逻辑① 展现表单 ② 接收表单数据
-        $user = M('user');
         if(!empty($_POST)){
             $username = I('post.user_name');
             $email = I('post.user_email');
@@ -133,33 +139,39 @@ class UserManageController extends AdminBaseController {
                 flash('请输入完整信息');
                 $this->redirect('add');
             }
+            $user = M('user');
+            $can_save = true;
             // 用户名邮箱是否重复
             $result = $user->where(array('user_name'=>$username))->find();
             if ($result) {
                 flash('用户名已存在');
-                $this->redirect('add');
+                $can_save = false;
             }
             // 邮箱是否重复
             $result = $user->where(array('user_email'=>$email))->find();
             if ($result) {
                 flash('该邮箱已被注册');
-                $this->redirect('add');
+                $can_save = false;
             }
-
-            if($user -> create()){
-                $result = $user -> add();
-                if($result){
+            if($can_save){
+                $signup_time = strtotime('now');
+                // 保存
+                $data = array(
+                    'user_name' => $username,
+                    'user_password' => $password,
+                    'user_email' => $email,
+                    'user_signup_time' => $signup_time
+                );
+                if ($user->data($data)->add()) {
                     flash('添加成功!','green');
                     $this -> redirect('index');
-                }else{
-                    flash('添加失败!','red');
-                    $this -> redirect('index');
+                } else {
+                    flash('添加失败!', 'red');
+                    $this->redirect('index');
                 }
             }else{
-                flash('添加失败!','red');
-                $this -> redirect('index');
+                $this -> redirect('add');
             }
-
         }else{
             $this -> display();
         }
