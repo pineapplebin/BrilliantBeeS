@@ -27,4 +27,18 @@ class TestController extends NormalBaseController {
         echo '<html><head><meta charset="UTF-8"></head><body>';
         echo '<p>成功插入了'.$result.'条数据，快去数据库查看吧</p>';
     }
+
+    public function newtest() {
+        $forgery = new \Common\Common\Forgery('user');
+
+        $forgery->add_field('user_name', 'name');
+        $forgery->add_field('user_email', 'email');
+        $forgery->add_field('user_password', 'password');
+        $forgery->add_field('user_signup_time', 'designated', strtotime('now'));
+
+        $result = $forgery->fake(10);
+
+        echo '<html><head><meta charset="UTF-8"></head><body>';
+        echo '<p>成功插入了'.$result.'条数据，快去数据库查看吧</p>';
+    }
 }

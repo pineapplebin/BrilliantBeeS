@@ -4,6 +4,8 @@ namespace Common\Common;
 /**
  * Forgery类
  * 生成虚假信息并写入数据库
+ *
+ * @version 1.1 Add get_designated() method
  * @package Common\Common
  */
 class Forgery {
@@ -45,14 +47,20 @@ class Forgery {
      * 第二参数为随机内容的种类，分别有：
      * name（用户名字），email（邮箱地址），password（MD5处理的密码，值为123），
      * title（标题，默认10单词左右，无标点），text（短文章，默认50单词左右，有标点），
-     * number（数字，默认长度为5）
-     * 第三参数为长度，对title，text，number有效，如果不填，则使用上述的默认长度
+     * number（数字，默认长度为5），
+     * designated（指定的值，之后写入第三参数不代表长度，而是指定的内容）
+     * 第三参数为长度，对title，text，number有效，如果不填，则使用上述的默认长度，
+     * 当类型为designated的时候，第三参数不表示为长度，而是表示为指定的内容
      *
      * @param $name
      * @param $type
      */
-    public function add_field($name, $type, $len=0) {
-        $this->table_field[$name] = array($type, $len);
+    public function add_field($name, $type, $len=0, $designated=null) {
+        $this->table_field[$name] = array(
+            'type' => $type,
+            'length' => $len,
+            'designated' => $designated
+        );
     }
 
     /**
@@ -72,8 +80,8 @@ class Forgery {
             // 根据类中存储的字段数组，生成对应的内容并循环写入$data中
             foreach ($this->table_field as $key => $value) {
                 // 拼装类方法名称，得到如get_name()的方法名
-                $method_name = get_.$value[0];
-                $value = $this->$method_name($value[1]);
+                $method_name = 'get_'.$value['type'];
+                $value = $this->$method_name($value['length']);
                 $data[$key] = $value;
             }
             try {
@@ -107,7 +115,7 @@ class Forgery {
         if ($len <= 0) $len = 10;
         $result = '';
         $min = $len-3<0 ? 0 : $len-3;
-        $word_num = rand($len-3, $len+3);
+        $word_num = rand($min, $len+3);
         for ($i = 0; $i < $word_num; $i++) {
             $rand_index = rand(0, $this->name_list_len);
             $result = $result . $this->name_list[$rand_index] . ' ';
@@ -117,7 +125,7 @@ class Forgery {
 
     public function get_text($len=50) {
         if ($len <= 0) $len = 50;
-        $result = 'a';
+        $result = '';
         $node = array(', ', '. ', '! ', '? ');
         $min = $len-5<0 ? 0 : $len-5;
         $word_num = rand($min, $len+5);
@@ -134,10 +142,14 @@ class Forgery {
         return $result;
     }
 
-    public function get_number($len) {
+    public function get_number($len=5) {
         if ($len <= 0) return 0;
         $min = pow(10, $len-1);
         $max = pow(10, $len) - 1;
         return rand($min, $max);
+    }
+
+    public function get_designated($designated) {
+        return $designated;
     }
 }
