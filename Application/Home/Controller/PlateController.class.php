@@ -4,22 +4,25 @@ use Common\Controller\NormalBaseController;
 
 class PlateController extends NormalBaseController {
 
-    public function forum() {
-        $id = $_GET['id'];
-        $post = M('post');
-        $result = $post->where(array('post_plate' => $id))->select();
-        $this->assign('result', $result);
-        $this->display();
-    }
-
     public function index() {
-        echo '<a href="'.U('/forum/1').'">click me</a>';
+       $this -> display();
     }
 
-    public function test() {
-        $a = array('1' => 1, '2' => 2);
-        print_array(strtotime('now'), 1);
-        print_array($a, 1);
-    }
+    public  function forum(){
+        $id = I('get.id');
+        $post = M('plate');
+        $condition['plate_id'] = $id;
+        $result = $post->where($condition)->find();
+        $post = M('post');
+        $list = $post -> where(array('post_plate' => $id))->order('post_time DESC') -> select();
 
+        if($result){
+            $this -> assign('Plate', $result);
+            $this -> assign('List', $list);
+            $this -> display('index');
+        } else{
+            $this -> error('访问的板块不存在!');
+        }
+
+    }
 }

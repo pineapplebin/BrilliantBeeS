@@ -63,12 +63,12 @@ class PlateManageController extends AdminBaseController {
             $data=array(
                 'plate_name'=>I('post.plateName'),
                 'plate_desc'=>I('post.plateDescription'),
-                'plate_create_time'=>date('Y-m-d H:i')
+                'plate_create_time'=>strtotime('now')
             );
             $result=$newPlate->data($data)->add();
             if($result){
                 flash('板块创建成功','green');
-                $this->redirect('plateManage');
+                $this->redirect('index');
             }else{
                 flash('板块创建失败');
                 $this->redirect('newPlate');

@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="__PUBLIC__/favicon.ico">
-    <title><block name="title">板块删除</block></title>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css">
-
-</head>
-<body>
+<extend name="./Template/Public/admin_base.html" />
+<block name="content">
     <h4>您将要删除以下板块:</h4><br/>
-
     <table class="table table-hover">
         <tr bgcolor="#f5f5dc">
             <th>板块ID</th>
@@ -33,16 +20,14 @@
         </foreach>
         <tr>
             <td>
+                <a href="{:U('index')}"><button class="btn btn-primary">取消</button></a>
                 <a href="{:U('deletePlateHandle',array('id'=>$del['plate_id']))}"><button class="btn btn-primary">删除</button></a>
-                <a href="{:U('index')}">
-                    <button class="btn btn-primary">取消</button></a>
             </td>
         </tr>
     </table>
-    <!-- Bootstrap core JavaScript -->
+</block>
+<block name="js_file">
     <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
     <script src="__PUBLIC__/js/bootstrap.min.js"></script>
     <script src="__PUBLIC__/js/admin.base.js"></script>
-    <block name="js_file"></block>
-</body>
-</html>
+</block>

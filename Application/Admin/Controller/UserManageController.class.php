@@ -21,17 +21,17 @@ class UserManageController extends AdminBaseController {
             }
             $condition['user_name'] = I('user_name');
             $list = $user -> where($condition)-> limit($page->firstRow.','.$page->listRows)-> select();
-            $this -> assign('count',1);           // 总记录数
+            $this -> assign('count',1);            // 总记录数
 
             if(count($list)== 0){
                 $notice = "该用户不存在!";
                 $this -> assign('notice',$notice);
-                $this -> assign('count',0);       // 总记录数
+                $this -> assign('count',0);        // 总记录数
             }
 
-        } else {                                  // 没有查询用户，默认显示全部用户信息
-            $count = $user -> count();            // 总条数
-            $page = new \Think\Page($count,10);    // 设置每页显示条数为7条
+        } else {                                   // 没有查询用户，默认显示全部用户信息
+            $count = $user -> count();             // 总条数
+            $page = new \Think\Page($count,10);    // 设置每页显示条数为10条
 
             // 样式定制
             $page -> setConfig('prev','上一页');
@@ -108,7 +108,6 @@ class UserManageController extends AdminBaseController {
             $this -> display();
         }
     }
-
     // 批量删除用户
     function delete_all(){
         $user = M('user');
