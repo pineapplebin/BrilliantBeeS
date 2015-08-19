@@ -79,9 +79,6 @@ VALUES ('允许参与点评', 1);
 INSERT INTO  `bbs_authority` (`auth_name`, `auth_level`) 
 VALUES ('允许使用多媒体代码', 1);
 
-INSERT INTO  `bbs_authority` (`auth_name`, `auth_level`) 
-VALUES ('', 1);
-
 -- 家园相关
 INSERT INTO  `bbs_authority` (`auth_name`, `auth_level`) 
 VALUES ('允许打招呼', 1);

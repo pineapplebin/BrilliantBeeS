@@ -68,10 +68,10 @@ class PlateManageController extends AdminBaseController {
             $result=$newPlate->data($data)->add();
             if($result){
                 flash('板块创建成功','green');
-                $this->redirect('plateManage');
+                $this->redirect('index');
             }else{
                 flash('板块创建失败');
-                $this->redirect('newPlate');
+                $this->redirect('index');
             }
         }else{
             flash('板块创建失败');

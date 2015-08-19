@@ -1,8 +1,13 @@
 <extend name="./Template/Public/admin_base.html" />
-
+<block name="li_sel">
+                <li><a href="{:U('Admin/SiteSetting/index')}">后台首页</a></li>
+                <li><a href="{:U('Admin/UserGroup/index')}">用户组权限管理</a></li>
+                <li class="active"><a href="{:U('Admin/PlateManage/index')}">论坛版块管理</a></li>
+                <li><a href="{:U('Admin/UserManage/index')}">用户管理</a></li>
+</block>    
         <block name="title">新建板块</block>
         <block name="content">
-            <form action="{:U('./Admin/PlateManage/newPlateHandle')}" method="post">
+            <form action="{:U('newPlateHandle')}" method="post">
                 <lable for="plateName"><h5>板块名称:</h5></lable>
                 <br/>
                 <div class="col-xs-4">

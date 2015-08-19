@@ -5,6 +5,12 @@
 <block name="css_file">
     <link href="__PUBLIC__/css/admin.usermanage.css" type="text/css" rel="stylesheet"></link>
 </block>
+<block name="li_sel">
+                <li><a href="{:U('Admin/SiteSetting/index')}">后台首页</a></li>
+                <li><a href="{:U('Admin/UserGroup/index')}">用户组权限管理</a></li>
+                <li><a href="{:U('Admin/PlateManage/index')}">论坛版块管理</a></li>
+                <li class="active"><a href="{:U('Admin/UserManage/index')}">用户管理</a></li>
+            </block>    
 
 <block name="content">
     <form action="{:U('index')}" method="post" id="search">

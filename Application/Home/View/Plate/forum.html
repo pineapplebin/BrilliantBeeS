@@ -1,1 +1,17 @@
 <extend name="./Template/Public/base.html"/>
+<block name="css_file"><link rel="stylesheet" type="text/css" href="__PUBLIC__/css/forum.css"></block>
+<block name="content">
+	<div class="plate_name">板块名
+			<h1>{$plate_name}</h1>
+			<p>{$plate_desc}</p>
+	</div>
+	<div class="plate_sub_name">子板块名</div>
+	<div class="plate_page">分页选择
+	<a class="btn btn-default" href="{:U('Post/index')}" role="button">发帖</a>
+	</div>
+	<div class="plate_view">帖</div>
+	<div class="plate_page">分页选择
+	<a class="btn btn-default" href="#" role="button">发帖</a>
+	</div>
+	<div class="plate_post">发帖</div>
+</block>

@@ -6,7 +6,8 @@ class TestController extends NormalBaseController {
 
     public function index() {
         echo '<html><head><meta charset="UTF-8"></head>';
-        echo '<body><p>确定？</p><a href="'.U('test').'">yes</a></body></html>';
+        echo '<body><p>随机添加用户信息</p><a href="'.U('test').'">yes</a></body>';
+        echo '<p>随机添加板块</p><a href="'.U('add_plate').'">yes</a></html>';
     }
 
     public function test() {
@@ -26,5 +27,17 @@ class TestController extends NormalBaseController {
 
         echo '<html><head><meta charset="UTF-8"></head><body>';
         echo '<p>成功插入了'.$result.'条数据，快去数据库查看吧</p>';
+    }
+
+    public function add_plate(){
+       $forgery = new \Common\Common\Forgery('plate');
+
+       $forgery->add_field('plate_name','name');
+       $forgery->add_field('plate_desc','text');
+
+       $result = $forgery->fake(10);
+
+       echo '<html><head><meta charset="UTF-8"></head><body>';
+       echo '<p>成功插入了'.$result.'条数据，快去数据库查看吧</p>';
     }
 }
