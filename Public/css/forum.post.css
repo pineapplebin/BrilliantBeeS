@@ -1,0 +1,19 @@
+.post_author{
+	width: 20%;
+	height: 500px;
+	background-color: #fff;
+	margin-right: 5px;
+	border:1px solid #444;
+	float: left;
+	padding: 5px;
+}
+
+.post_content{
+	width: 	70%;
+	height: 500px;
+	background-color: #fff;
+	margin-right: 5px;
+	border:1px solid #444;
+	float: left;
+	padding: 5px;
+}

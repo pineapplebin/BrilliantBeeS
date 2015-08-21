@@ -1,0 +1,17 @@
+<extend name="./Template/Public/base.html"/>
+<block name="css_file"><link rel="stylesheet" type="text/css" href="__PUBLIC__/css/forum.post.css"></block>
+
+<block name="l-bar">
+	<em>&nbsp > &nbsp</em>
+	<a href="{:U('Plate/forum?id='.$plate_id)}" style="color:black">{$plate_name}</a>
+	<em>&nbsp > &nbsp</em>
+	<a href="{:U('forum?id='.$post_id.'&plate_id='.$plate_id.'&plate_name='.$plate_name)}" style="color:black">{$post_title}</a>
+</block>
+
+<block name="content">
+	<!-- 主贴内容 -->
+	<div class="post_author">个人资料</div>
+	<div class="post_content">
+		<a href="{:U('forum?id='.$post_id.'&plate_id='.$plate_id.'&plate_name='.$plate_name)}" style="color:black;font-size:25px">{$post_title}</a>
+	</div>
+</block>

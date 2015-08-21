@@ -18,21 +18,54 @@ class PlateController extends NormalBaseController {
         //......
         //获取该块帖子
         $result = $post->where(array('post_plate' => $id))->select();
+        $this->assign('post_title',$result[1]['post_title']);
+        //时间戳转时间
+        $result_time=$post->where(array('post_plate' => $id))->field('post_time')->select();
+        $length=0;
+        while($result_time[$length]!=''){            
+            $times[$length]=date("Y-m-d",implode($result_time[$length]));
+            $length++;
+        }
+        $this->assign('times',$times);
+        $this->assign('num',0);
         $this->assign('plate_name',$plate_name);
         $this->assign('plate_desc',$plate_desc);
         $this->assign('result', $result);
+        $this->assign('id',$id);
         $this->display();
     }
 
-    public function index() {
-        //echo '<a href="'.U('/forum/14').'">click me</a>';
-        echo U('Post/index');
-    }
+    public function handle(){  
+          
+        $plate_id = I('post.plate_id');
+        $title = I('post.post_title');
+        $content = I('post.post_content');
 
-    public function test() {
-        $a = array('1' => 1, '2' => 2);
-        print_array(strtotime('now'), 1);
-        print_array($a, 1);
+        if($title==''||$content==''){
+            flash('主题和内容不能为空');
+            $this->redirect('forum?id='.$plate_id);
+        }
+
+        $time = time();
+        $auth_name = session('user_name');
+        $auth_id = session('user_id');
+        $last_reply_time = $time;
+
+        $post_data['post_title']=$title;
+        $post_data['post_content']=$content;
+        $post_data['post_time']=$time;
+        $post_data['post_last_reply_time']=$last_reply_time;
+        $post_data['post_author_id']=$auth_id;
+        $post_data['post_author_name']=$auth_name;
+        $post_data['post_plate']=$plate_id;
+
+        $post=M('post');
+        if($post->add($post_data)) $this->redirect('forum?id='.$plate_id);
+        else {
+            flash('发帖失败');
+            $this->redirect('forum?id='.$plate_id);
+        }
+        
     }
 
 }
