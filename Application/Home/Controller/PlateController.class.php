@@ -5,7 +5,7 @@ use Common\Controller\NormalBaseController;
 class PlateController extends NormalBaseController {
 
     public function index() {
-       $this -> display();
+
     }
 
     public  function forum(){
@@ -19,7 +19,7 @@ class PlateController extends NormalBaseController {
         if($result){
             $this -> assign('Plate', $result);
             $this -> assign('List', $list);
-            $this -> display('index');
+            $this -> display();
         } else{
             $this -> error('访问的板块不存在!');
         }

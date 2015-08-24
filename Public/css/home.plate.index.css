@@ -1,0 +1,8 @@
+.list-group-item{
+    height: 80px;
+}
+.list-group-item td{
+    padding-left: 20px;
+    padding-top: 2.5px;
+    padding-bottom: 2.5px;
+}
