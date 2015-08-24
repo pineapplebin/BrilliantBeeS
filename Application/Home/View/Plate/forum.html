@@ -30,7 +30,7 @@
 	<div class="plate_sub_name">子板块名</div>
 
 	<div class="plate_page">
-	<a class="btn btn-default" href="{:U('Post/index?id='.$id)}" role="button" style="box-shadow: 0px 0px 10px 6px black">发帖</a>
+	<a class="btn btn-default" href="{:U('Post/index?id='.$id.'&plate_name='.$plate_name)}" role="button" style="box-shadow: 0px 0px 5px red">发帖</a>
 	</div>
 	<div class="plate_view">
 		<foreach name="result" item="arr">
@@ -46,7 +46,7 @@
 		</foreach>
 	</div>
 	<div class="plate_page">
-	<a class="btn btn-default" style="box-shadow: 0px 0px 10px 6px black;margin-top:5px" href="{:U('Post/index?id='.$id)}" role="button">发帖</a>
+	<a class="btn btn-default" style="box-shadow: 0px 0px 5px red;margin-top:5px" href="{:U('Post/index?id='.$id.'&plate_name='.$plate_name)}" role="button">发帖</a>
 	</div>
 	<div class="plate_post">
 		<div style="background-color:#EBF2F8;border:2px solid #EBF2F8">

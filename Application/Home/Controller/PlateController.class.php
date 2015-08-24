@@ -41,6 +41,10 @@ class PlateController extends NormalBaseController {
         $title = I('post.post_title');
         $content = I('post.post_content');
 
+        if(session('user_name')==''||session('user_id')==''){
+            flash('请先登录');
+            $this->redirect('forum?id='.$plate_id);
+        }
         if($title==''||$content==''){
             flash('主题和内容不能为空');
             $this->redirect('forum?id='.$plate_id);

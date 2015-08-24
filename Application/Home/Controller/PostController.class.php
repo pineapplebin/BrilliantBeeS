@@ -4,9 +4,16 @@ use Common\Controller\NormalBaseController;
 
 class PostController extends NormalBaseController {
 
-    public function index($id) {
+    public function index($id,$plate_name) {
         $plate_id = I('get.id');
+        $plate_name = I('get.plate_name');
+        
+        if(session('user_name')==''||session('user_id')==''){
+            flash('请先登录');
+            $this->redirect('Plate/forum?id='.$plate_id);
+        }
         $this->assign('plate_id',$plate_id);
+        $this->assign('plate_name',$plate_name);
         $this->display();
     }
 
