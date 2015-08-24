@@ -106,7 +106,7 @@ class UserManageController extends AdminBaseController {
     function delete_all(){
         $user = M('user');
         if(!empty($_POST)){
-            $id = I('post.delete_all');
+            $id = I('post.check_all');
             $condition['user_id'] = array('in',$id);
             $result = $user->where($condition)->delete();
             if ($result != false)

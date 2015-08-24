@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <title><block name="title">板块删除</block></title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css">
+
+</head>
+<body>
+<h4>您将要删除以下版主:</h4><br/>
+
+<table class="table table-hover">
+    <tr bgcolor="#f5f5dc">
+        <th>版主ID</th>
+        <th>版主名称</th>
+        <th>版主身份</th>
+    </tr>
+    <foreach name='delete' item='del'>
+        <tr>
+            <td>{$del.user_id}</td>
+            <td>{$del.user_name}</td>
+            <td>{$del.user_admin_group}</td>
+        </tr>
+    </foreach>
+    <tr>
+        <td>
+            <a href="{:U('delAdminHandle',array('u_id'=>$del['user_id']))}"><button class="btn btn-primary">删除</button></a>
+            <a href="{:U('plateAdminHandle')}">
+                <button class="btn btn-primary">取消</button></a>
+        </td>
+    </tr>
+</table>
+<!-- Bootstrap core JavaScript -->
+<script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/admin.base.js"></script>
+<block name="js_file"></block>
+</body>
+</html>

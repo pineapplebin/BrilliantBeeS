@@ -1,115 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="__PUBLIC__/favicon.ico">
-    <title><block name="title">论坛版块管理</block></title>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css">
-    <!-- 继承模板插入css文件位置 -->
-    <block name="css_file"></block>
-</head>
+<extend name="./Template/Public/admin_base.html" />
 
-<body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">BrilliantBeeS</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Help</a></li>
-            </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Search...">
-            </form>
-        </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="#" id="homepage">后台首页</a></li>
-                <li><a href="#">用户组权限管理</a></li>
-                <li class="active"><a href="{:U('./Admin/PlateManage/plateManage')}">论坛版块管理</a></li>
-                <li><a href="#">用户管理</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="">Nav item</a></li>
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-                <li><a href="">More navigation</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <div class="flash_messages">
-                <php>
-                    $flash_messages = get_flash_messages();
-                    foreach ($flash_messages as $msg) {
-                    echo '<div class="alert '.$msg[1].'"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[0].'</div>';
-                    }
-                </php>
-            </div>
-            <!--论坛板块管理页面内容-->
-            <block name="content">
-                <form action="{:U('./Admin/PlateManage/newPlate')}" method="post">
-                    <input type="submit" class="btn btn-primary" value="新建板块"/>
-                </form>
-                <hr/>
-                <table class="table table-hover">
-                    <tr bgcolor="#f5f5dc">
-                        <th>板块ID</th>
-                        <th>板块标题</th>
-                        <th>贴子数目</th>
-                        <th>创建时间</th>
-                        <th>操作</th>
-                    </tr>
-                    <foreach name='plate' item='v'>
-                        <tr>
-                            <td>{$v.plate_id}</td>
-                            <td>{$v.plate_name}</td>
-                            <td>{$v.plate_post_count}</td>
-                            <td>{$v.plate_create_time}</td>
-                            <td>
-                                <a href="{:U('./Admin/PlateManage/deletePlateCfm',array('id'=>$v['plate_id']))}" >delete</a>
-                            </td>
-                        </tr>
-                    </foreach>
-                    <tr>
-                        <td colspan="5" align="center">
-                            {$page}
-                        </td>
-                    </tr>
-                </table>
-            </block>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap core JavaScript -->
-<script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
-<script src="__PUBLIC__/js/bootstrap.min.js"></script>
-<script src="__PUBLIC__/js/admin.base.js"></script>
-<block name="js_file"></block>
-</body>
-</html>
+<block name="content">
+    <form action="{:U('./Admin/PlateManage/newPlate')}" method="post">
+        <input type="submit" class="btn btn-primary" value="新建板块"/>
+    </form>
+    <hr/>
+    <table class="table table-hover">
+        <tr bgcolor="#f5f5dc">
+            <th>板块ID</th>
+            <th>板块标题</th>
+            <th>贴子数目</th>
+            <th>创建时间</th>
+            <th>版主管理</th>
+            <th>操作</th>
+        </tr>
+        <foreach name='plate' item='v'>
+            <tr>
+                <td>{$v.plate_id}</td>
+                <td>{$v.plate_name}</td>
+                <td>{$v.plate_post_count}</td>
+                <td>{$v.plate_create_time}</td>
+                <td>
+                    版主数:{$v.plate_admin_num}&nbsp
+                    <a href="{:U('/Admin/PlateManage/plateAdminHandle',array('pid'=>$v['plate_id']))}">管理</a>
+                </td>
+                <td>
+                    <a href="{:U('./Admin/PlateManage/deletePlateCfm',array('id'=>$v['plate_id']))}" >delete</a>
+                </td>
+            </tr>
+        </foreach>
+        <tr>
+            <td colspan="6" align="center">
+                {$page}
+            </td>
+        </tr>
+    </table>
+</block>

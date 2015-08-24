@@ -1,0 +1,25 @@
+<extend name="./Template/Public/admin_base.html"/>
+        <block name="title">版主信息</block>
+<block name="content">
+    <h3>版主信息</h3><br/>
+
+    <table class="table table-hover">
+        <tr bgcolor="#f5f5dc">
+            <td>版主ID</td>
+            <td>版主名称</td>
+            <td>版主身份</td><!--版主/超级版主-->
+            <td>操作</td>
+        </tr>
+        <foreach name="user_admin" item="u">
+            <tr>
+                <td>{$u.user_id}</td>
+                <td>{$u.user_name}</td>
+                <td>{$u.user_admin_group}</td>
+                <td>
+                    <a href="{:U('/Admin/PlateManage/delAdmin',array('u_id'=>$u[user_id]))}">删除</a>
+                </td>
+            </tr>
+        </foreach>
+        <a href="{:U('/Admin/PlateManage/addAdmin',array('pid'=>$plate_id))}"><button class="btn btn-primary">增加</button></a>
+    </table>
+</block>
