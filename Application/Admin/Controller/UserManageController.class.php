@@ -31,10 +31,10 @@ class UserManageController extends AdminBaseController {
             $page = new \Think\Page($count,7);    // 设置每页显示条数为7条
 
             // 样式定制
-            $page -> setConfig('first','<<');
-            $page -> setConfig('last','>>');
             $page -> setConfig('prev','上一页');
             $page -> setConfig('next','下一页');
+            $page -> setConfig('first', '首页');
+            $page -> setConfig('end', '末页');
             $this -> assign('count',$count);     //总记录数
             // 数据集
             $list = $user ->order('user_id DESC')-> limit($page->firstRow.','.$page->listRows)-> select();
@@ -57,19 +57,19 @@ class UserManageController extends AdminBaseController {
             if($result != false){
                 flash('数据修改成功！','green');
                 $this ->redirect('index');
-            }else{
+            } else {
                 flash('数据未作更改!','red');
                 $this -> redirect('index');
             }
 
         // （否则就是）点击修改链接时，将数据转向修改页面并展示出来
-        }else{
+        } else {
             $info = $user -> find($user_id);  // 一维数组
             $this -> assign('info',$info);
 
-            $level = $info[user_level_group];
-            $special = $info[user_special_group];
-            $admin = $info[user_admin_group];
+            $level = $info['user_level_group'];
+            $special = $info['user_special_group'];
+            $admin = $info['user_admin_group'];
 
             $this -> assign('Lv'.$level,"selected='selected'");
             $this -> assign('Sp'.$special,"selected='selected'");

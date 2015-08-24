@@ -58,10 +58,10 @@ DROP TABLE IF EXISTS `bbs_post`;
 CREATE TABLE IF NOT EXISTS `bbs_post`(
     `post_id`  int primary key auto_increment,
     `post_title` varchar(100) not null,
-    `post_content` varchar(2000) not null,
-    `post_time` varchar(20) not null,
+    `post_content` varchar(4000) not null,
+    `post_time` int not null,
     `post_modify_time` int,
-    `post_last_reply_time` int,
+    `post_last_reply_time` int not null,
     `post_author_id` int not null,
     `post_author_name` varchar(20) not null,
     `post_reply_count` int not null default 0,
