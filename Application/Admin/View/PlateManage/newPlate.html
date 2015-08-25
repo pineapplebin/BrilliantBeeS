@@ -1,19 +1,22 @@
 <extend name="./Template/Public/admin_base.html" />
 
-        <block name="title">新建板块</block>
-        <block name="content">
-            <form action="{:U('./Admin/PlateManage/newPlateHandle')}" method="post">
-                <lable for="plateName"><h5>板块名称:</h5></lable>
-                <br/>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" placeholder="请输入板块名" id="plateName" name="plateName">
+<block name="title">{:C('SITE_NAME')} - 新建板块</block>
 
-                </div><br/><br/><br/>
-                <lable for="plateDescription"><h5>板块描述:</h5></lable>
-                <br/>
-                <textarea name="plateDescription" id="plateDescription" cols="100" rows="10"
-                          placeholder="请输入板块描述"></textarea>
-                <br/><br/>
-                <input type="submit" class="btn btn-primary" value="提 &nbsp 交"/>
-            </form>
-        </block>
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.plateManage.css"/>
+</block>
+
+<block name="content">
+    <h2>新建板块</h2>
+    <form action="{:U('./Admin/PlateManage/newPlateHandle')}" method="post" id="newplate-form">
+        <label for="plateName">板块名称:</label>
+        <input type="text" class="form-control" placeholder="请输入板块名" id="plateName" name="plateName">
+        <label for="plateDescription">板块描述:</label>
+        <textarea class="form-control" name="plateDescription" id="plateDescription" cols="100" rows="10" placeholder="请输入板块描述"></textarea><br>
+        <input id="newplate-btn" type="submit" class="btn btn-primary" value="提&nbsp交"/>
+    </form>
+</block>
+
+<block name="js_file">
+    <script src="__PUBLIC__/js/admin.plateManage.js"></script>
+</block>

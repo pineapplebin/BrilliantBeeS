@@ -1,0 +1,27 @@
+h2 {
+    margin-bottom: 20px;
+}
+
+#newplate-form label {
+    display: block;
+    font-size: 12pt;
+}
+
+#newplate-form input {
+    display: inline-block;
+    max-width: 60%;
+    margin-bottom: 10px;
+}
+
+#newplate-form textarea {
+    display: inline-block;
+    max-width: 60%;
+    margin-bottom: 10px;
+}
+
+#newplate-form .warning-msg {
+    color: darkred;
+    font-size: 12pt;
+    margin-left: 5px;
+    vertical-align: top;
+}

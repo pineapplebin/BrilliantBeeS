@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `bbs_user`(
     `user_signup_time` int not null default 0,
     `user_token` varchar(255),
     `user_token_time` int,
-    `user_admin_group_plateID` int not null default 0,
     UNIQUE (`user_name`),
     UNIQUE (`user_email`)
 )engine=myisam default charset=utf8;
@@ -87,9 +86,17 @@ DROP TABLE IF EXISTS `bbs_plate`;
 CREATE TABLE IF NOT EXISTS `bbs_plate`(
     `plate_id`  int primary key auto_increment,
     `plate_name` varchar(40) not null,
-    `plate_desc` VARCHAR(255) not null,
+    `plate_desc` VARCHAR(1000) not null,
     `plate_post_count` int not null default 0,
     `plate_reply_count` int not null default 0,
-    `plate_create_time` int not null default 0,
-    `plate_admin_num` int not null default 0
+    `plate_create_time` int not null default 0
+)engine=myisam default charset=utf8;
+
+-- 板块版主关系表
+DROP TABLE IF EXISTS `bbs_user_plate_relation`;
+CREATE TABLE IF NOT EXISTS `bbs_user_plate_relation`(
+    `user_id` int not null,
+    `plate_id` int not null,
+    `create_time` int default 0,
+    CONSTRAINT `pk_user_plate_id` PRIMARY KEY (`user_id`, `plate_id`)
 )engine=myisam default charset=utf8;

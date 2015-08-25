@@ -1,0 +1,29 @@
+<extend name="./Template/Public/admin_base.html"/>
+
+<block name="title">{:C('SITE_NAME')} - 删除板块</block>
+
+<block name="content">
+    <h2>您将要删除以下板块:</h2>
+    <table class="table table-hover">
+        <tr bgcolor="#f5f5dc">
+            <th>板块ID</th>
+            <th>板块标题</th>
+            <th>板块描述</th>
+            <th>贴子数目</th>
+            <th>创建时间</th>
+        </tr>
+        <tr>
+            <td>{$delete['plate_id']}</td>
+            <td>{$delete['plate_name']}</td>
+            <td>{$delete['plate_desc']}</td>
+            <td>{$delete['plate_post_count']}</td>
+            <td>{$delete['plate_create_time']|date='Y-m-d H:i', ###}</td>
+        </tr>
+    </table>
+
+    <form action="{:U('deletePlateHandle')}" method="post">
+        <input type="hidden" name="pid" value="{$delete['plate_id']}">
+        <button class="btn btn-danger" type="submit">删除</button>
+        <a class="btn btn-primary" href="{:U('index')}">取消</a>
+    </form>
+</block>

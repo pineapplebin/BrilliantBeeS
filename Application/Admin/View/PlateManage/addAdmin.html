@@ -1,5 +1,7 @@
 <extend name="./Template/Public/admin_base.html"/>
-<block name="title">增加版主</block>
+
+<block name="title">{:C('SITE_NAME')} - 增加版主</block>
+
 <block name="content">
     <h3>版主候选人</h3><br/>
     <form action="{:U('/Admin/PlateManage/addAdminHandle')}" method="post" id="add">
@@ -10,29 +12,30 @@
                 <td>候选人名称</td>
                 <td>候选人身份</td>
             </tr>
-            <tr>
-                <foreach name="addAdmin" item="add">
-                    <tr>
-                        <td>
-                            <div class="checkbox">
+            <foreach name="addAdmin" item="add">
+                <tr>
+                    <td>
+                        <if condition="$add['can_admin_plate']">
                                 <!-- checkbox 的name 属性为一个数组,表单提交时,会将勾选的value值存到名为name的数组-->
                                 <label><input type="checkbox" name="check_all[]" value="{$add.user_id}"></label>
-                            </div>
-                        </td>
-                        <td>{$add.user_id}</td>
-                        <td>{$add.user_name}</td>
-                        <td>{$add.user_admin_group}</td>
-                    </tr>
-                </foreach>
-            </tr>
+                            <else/>
+                            <span class="alert-danger">本版块版主</span>
+                        </if>
+                    </td>
+                    <td>{$add.user_id}</td>
+                    <td>{$add.user_name}</td>
+                    <td>{$add.user_admin_group}</td>
+                </tr>
+            </foreach>
         </table>
         <div class="checkbox">
-            <label><input type="checkbox" id="check_all" onclick="checkAll()" >全选</label>&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" id="check_all">全选</label>&nbsp;&nbsp;&nbsp;
             <input type="hidden" name="pid" value="{$plate_id}"/>
-            <input class="btn btn-danger" type="button" onclick="addAll()" value="增加版主" >
+            <input id="addadmin-btn" class="btn btn-danger" type="button" value="增加版主" >
         </div>
     </form>
 </block>
+
 <block name="js_file">
-    <script src="__PUBLIC__/js/admin.userManage.js"></script>
+    <script src="__PUBLIC__/js/admin.plateManage.js"></script>
 </block>
