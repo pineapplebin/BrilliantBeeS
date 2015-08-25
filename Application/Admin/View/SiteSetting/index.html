@@ -5,7 +5,12 @@
 <block name="css_file">
     <link rel="stylesheet" href="__PUBLIC__/css/sitesetting.index.css" type="text/css"/>
 </block>
-
+<block name="li_sel">
+                <li class="active"><a href="{:U('Admin/SiteSetting/index')}">后台首页</a></li>
+                <li><a href="{:U('Admin/UserGroup/index')}">用户组权限管理</a></li>
+                <li><a href="{:U('Admin/PlateManage/index')}">论坛版块管理</a></li>
+                <li><a href="{:U('Admin/UserManage/index')}">用户管理</a></li>
+            </block>    
 <block name="content">
     <h2>网站相关配置</h2>
     <div class="alert alert-warning" role="alert" style="margin-bottom: 20px;">

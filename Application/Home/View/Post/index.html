@@ -1,0 +1,38 @@
+<extend name="./Template/Public/base.html" />
+<block name="js_file">
+	<script type="text/javascript">
+	function check(){
+		var title = document.getElementById('post_title').value;
+		var content = document.getElementById('post_content').value;
+		if(title==''||content=='') {
+			alert('主题和内容不能为空');
+			return false;
+
+		}
+		else return true;
+	}
+	</script>
+</block>
+<block name="l-bar">
+	<em>&nbsp > &nbsp</em>
+	<a href="{:U('Plate/forum?id='.$plate_id)}" style="color:black">{$plate_name}</a>
+</block>
+<block name="content">
+	<div style="background-color:#DDE5F2;margin-top:10%;margin-left:10%;border-radius:10px;border:2px solid #333;width:60%;height:500px">
+	<form action="{:U('handle')}" method="post" >
+	<div style="margin-top:50px;margin-left:15px">
+		<p style="float:left">主题：</p>
+		<input type="text" style="width:590px;height:25px" name="post_title" id="post_title">		
+	</div>
+	<div style="margin-top:20px;margin-left:15px">
+		<p>内容：</p>
+		<textarea rows="20" cols="100" style="width:650px;height:300px" name="post_content" id="post_content"></textarea>		
+	</div>
+	<div style="margin-top:10px;margin-left:15px">
+		<input type="hidden" name="plate_id" value="{$plate_id}">
+		<input type="submit" value="提交" class="btn btn-default" />
+		<input type="reset" value="重置" class="btn btn-default" />				
+	</div>
+	</form>	
+	</div>
+</block>

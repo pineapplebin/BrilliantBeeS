@@ -77,11 +77,11 @@ class PlateManageController extends AdminBaseController {
             'plate_desc'=>I('post.plateDescription'),
             'plate_create_time'=>strtotime('now'),
         );
-        $result = $newPlate->data($data)->add();
-        if ($result) {
+        try {
+            $result = $newPlate->data($data)->add();
             flash('板块创建成功','green');
             $this->redirect('index');
-        } else {
+        } catch(\Exception $e) {
             flash('板块创建失败');
             $this->redirect('newPlate');
         }

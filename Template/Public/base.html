@@ -74,7 +74,7 @@
                                 <span id="remember-span">自动登录 <span id="fake-checkbox"><span id="fake-checked"></span></span></span>
                                 <input type="checkbox" name="remember_me" style="display: none;"/>
                                 <a href="" style="margin-left: 5px;">找回密码</a>
-                            </div>
+                            </div>                            
                         </div>
                     </form>
                 </if>
@@ -83,6 +83,16 @@
     </div>
 
 </nav>
+<div class="container">
+    <div class="row">
+    <div class="col-sm-12">        
+    <a href="{:U('Home/Index/index')}" style="color:black;font-size:15px;float:left;margin-left:5px">BriliantBeeS</a>
+
+    <block name="l-bar"></block>   
+    
+    </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="flash_messages">
@@ -95,7 +105,6 @@
     </div>
     <block name="content"></block>
 </div><!-- /.container -->
-
 
 <!-- Bootstrap core JavaScript -->
 <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>

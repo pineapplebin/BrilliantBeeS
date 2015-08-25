@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `bbs_level_group`;
 CREATE TABLE IF NOT EXISTS `bbs_level_group`(
     `level_id`  int primary key auto_increment,
     `level_name` varchar(20) not null,
-    `level_group_auth` int not null
+    `level_group_auth` varchar(35) not null
 )engine=myisam default charset=utf8;
 
 -- 特殊用户组
@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `bbs_special_group`;
 CREATE TABLE IF NOT EXISTS `bbs_special_group`(
     `special_id`  int primary key auto_increment,
     `special_name` varchar(20) not null,
-    `special_group_auth` int not null
+    `special_group_auth` varchar(35) not null
 )engine=myisam default charset=utf8;
 
 -- 管理用户组
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `bbs_admin_group`;
 CREATE TABLE IF NOT EXISTS `bbs_admin_group`(
     `admin_id` int primary key auto_increment,
     `admin_name` varchar(20) not null,
-    `admin_group_auth` int not null
+    `admin_group_auth` varchar(35) not null
 )engine=myisam default charset=utf8;
 
 -- 权限表

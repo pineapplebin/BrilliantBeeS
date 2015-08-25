@@ -111,6 +111,8 @@ class Forgery {
         return md5('123');
     }
 
+
+// 随机板块函数
     public function get_title($len=10) {
         if ($len <= 0) $len = 10;
         $result = '';
