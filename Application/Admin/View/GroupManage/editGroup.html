@@ -1,0 +1,56 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.groupManage.css">
+</block>
+
+<block name="title">{:C('SITE_NAME')} - 编辑用户组权限</block>
+
+<block name="content">
+    <h2>编辑用户组权限</h2>
+    <hr>
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;max-width: 70%;">
+        <strong>提醒：</strong>你现在修改的是<span class="alert-warning" style="font-weight: bold;">{$type_chs}</span>中的<span class="alert-warning" style="font-weight: bold;">{$group_chs}</span>用户组<br>
+        <strong>注意：</strong>修改内容后不会自动保存，如果确认修改，请点击页面下方的保存按钮以保存修改
+    </div>
+    <div id="index-body">
+        <form action="{:U('editGroupHandle')}" method="post">
+        <div class="panel panel-primary" style="max-width: 70%;">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="setting-label">用户组名称</div>
+                    <div class="setting-option" style="text-align: left;">
+                        <input type="text" name="group_name" id="group_name" value="{$group_chs}">
+                    </div>
+                </li>
+                <foreach name="auths" item="auth">
+                    <li class="list-group-item">
+                        <div class="setting-label">
+                            <label for="auth-{$auth['auth_id']}">{$auth['auth_name']}</label>
+                        </div>
+                        <div class="setting-option" style="text-align: left;">
+                            <switch name="auth['auth_type']">
+                                <case value="boolean" break="1">
+                                    <if condition="$auth_value[$auth['auth_id']]['auth_value'] neq ''">
+                                        <input type="checkbox" name="auth_{$auth['auth_id']}" id="auth-{$auth['auth_id']}" value="1" checked="checked" />
+                                    <else/>
+                                        <input type="checkbox" name="auth_{$auth['auth_id']}" id="auth-{$auth['auth_id']}" value="1" />
+                                    </if>
+                                </case>
+                                <case value="string" break="1">
+                                    <input type="text" name="auth_{$auth['auth_id']}" id="auth-{$auth['auth_id']}" value="{$auth_value[$auth['auth_id']]['auth_value']}"/>
+                                </case>
+                            </switch>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+            <input type="hidden" name="group_type" value="{$group_type}" />
+            <input type="hidden" name="group_id" value="{$group_id}" />
+            <input type="submit" class="btn btn-primary" value="保存" />
+            <a href="{:U('index')}" class="btn btn-default">返回</a>
+        </form>
+        </div>
+    </div>
+</block>

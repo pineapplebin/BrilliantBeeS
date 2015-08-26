@@ -1,0 +1,64 @@
+<extend name="./Template/Public/admin_base.html" />
+
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.groupManage.css" type="text/css" />
+</block>
+
+<block name="title">{:C('SITE_NAME')} - 添加用户组</block>
+
+<block name="content">
+    <h2>添加用户组</h2>
+    <hr>
+    <form action="{:U('addGroupHandle')}" method="post">
+    <div id="index-body">
+        <div class="panel panel-primary" style="max-width: 60%;">
+            <div class="panel-heading">
+                <h5>你希望在<span style="font-weight: bold;color:#0f0f0f;">{$group_chs}</span>中增加新的用户组</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="setting-label"><label id="group_name_label" for="group_name">用户组名字</label></div>
+                        <div class="setting-option">
+                            <input type="text" name="group_name" id="group_name" >
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel panel-success" style="max-width: 60%;">
+            <div class="panel-heading">
+                <h5>请完善本新增用户组的权限</h5>
+            </div>
+            <div class="panel-body">
+
+                <ul class="list-group">
+                    <foreach name="auths" item="auth">
+                        <li class="list-group-item">
+                            <div class="setting-label">
+                                <label for="auth-{$auth['auth_id']}">{$auth['auth_name']}</label>
+                            </div>
+                            <div class="setting-option">
+                                <switch name="auth['auth_type']">
+                                    <case value="boolean" break="1">
+                                        <input type="checkbox" name="auth_{$auth['auth_id']}" id="auth-{$auth['auth_id']}" value="1" />
+                                    </case>
+                                    <case value="string" break="1">
+                                        <input type="text" name="auth_{$auth['auth_id']}" id="auth-{$auth['auth_id']}" />
+                                    </case>
+                                </switch>
+                            </div>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>
+        <input type="hidden" name="group_type" value="{$group_type}" />
+        <input id="addGroup-btn" type="submit" class="btn btn-primary" value="确认添加" />
+    </form>
+</block>
+
+<block name="js_file">
+    <script src="__PUBLIC__/js/admin.groupManage.js"></script>
+</block>

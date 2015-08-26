@@ -6,12 +6,12 @@
     <h3>版主候选人</h3><br/>
     <form action="{:U('/Admin/PlateManage/addAdminHandle')}" method="post" id="add">
         <table class="table table-hover">
-            <tr bgcolor="#f5f5dc">
+            <thead style="font-weight: bold;">
                 <td>#</td>
                 <td>候选人ID</td>
                 <td>候选人名称</td>
                 <td>候选人身份</td>
-            </tr>
+            </thead>
             <foreach name="addAdmin" item="add">
                 <tr>
                     <td>

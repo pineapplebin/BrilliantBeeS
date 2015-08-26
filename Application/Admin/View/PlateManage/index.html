@@ -4,18 +4,19 @@
 
 <block name="content">
     <h2>板块管理</h2>
+    <hr>
     <div style="margin-bottom: 10px;">
         <a href="{:U('newPlate')}" class="btn btn-primary">新建板块</a>
     </div>
     <table class="table table-hover">
-        <tr bgcolor="#f5f5dc">
+        <thead style="font-weight: bold;">
             <th>板块ID</th>
             <th>板块标题</th>
             <th>贴子数目</th>
             <th>创建时间</th>
             <th>版主资料</th>
             <th>操作</th>
-        </tr>
+        </thead>
         <foreach name='plate' item='v'>
             <tr>
                 <td>{$v['plate_id']}</td>

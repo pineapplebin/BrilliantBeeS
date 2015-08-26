@@ -10,11 +10,9 @@
     <link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="__PUBLIC__/css/admin.base.css" type="text/css">
     <!-- 继承模板插入css文件位置 -->
-    <block name="css_file"></block>  
-    <block name="js"></block>
+    <block name="css_file"></block>
 </head>
-
-<block name="body_set"><body></block>
+<body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -44,12 +42,11 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-              <block name="li_sel">
-                <li><a href="{:U('Admin/SiteSetting/index')}">后台首页</a></li>
-                <li><a href="{:U('Admin/UserGroup/index')}">用户组权限管理</a></li>
+                <li><a href="{:U('Admin/Index/index')}">后台首页</a></li>
+                <li><a href="{:U('Admin/GroupManage/index')}">用户组权限管理</a></li>
                 <li><a href="{:U('Admin/PlateManage/index')}">论坛版块管理</a></li>
                 <li><a href="{:U('Admin/UserManage/index')}">用户管理</a></li>
-            </block>    
+                <li><a href="{:U('Admin/SiteSetting/index')}">网站设置</a></li>
             </ul>            
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

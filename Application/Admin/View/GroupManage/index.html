@@ -1,0 +1,87 @@
+<extend name="./Template/Public/admin_base.html"/>
+
+<block name="title">{:C('SITE_NAME')} - 用户组管理</block>
+
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.groupManage.css" type="text/css" />
+</block>
+
+<block name="content">
+    <h2>用户组管理</h2>
+    <hr>
+    <div id="index-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5 style="display: inline-block;">晋级用户组</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <foreach name="level_groups" item="level">
+                    <li class="list-group-item">
+                        <div class="setting-label">{$level['level_name']}</div>
+                        <div class="setting-option">
+                            <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">编辑</a>
+                            <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">删除</a>
+                        </div>
+                    </li>
+                    </foreach>
+                    <li class="list-group-item" style="padding: 0">
+                        <div class="setting-full-btn">
+                            <a href="{:U('addGroup', array('gtype'=>'1'))}" class="btn-sm btn-default add-group">+</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h5 style="display: inline-block;">特殊用户组</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <foreach name="special_groups" item="special">
+                        <li class="list-group-item">
+                            <div class="setting-label">{$special['special_name']}</div>
+                            <div class="setting-option">
+                                <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">编辑</a>
+                                <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">删除</a>
+                            </div>
+                        </li>
+                    </foreach>
+                    <li class="list-group-item" style="padding: 0">
+                        <div class="setting-full-btn">
+                            <a href="{:U('addGroup', array('gtype'=>'2'))}" class="btn-sm btn-default add-group">+</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h5 style="display: inline-block;">管理用户组</h5>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <foreach name="admin_groups" item="admin">
+                        <li class="list-group-item">
+                            <div class="setting-label">{$admin['admin_name']}</div>
+                            <div class="setting-option">
+                                <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">编辑</a>
+                                <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">删除</a>
+                            </div>
+                        </li>
+                    </foreach>
+                    <li class="list-group-item" style="padding: 0">
+                        <div class="setting-full-btn">
+                            <a href="{:U('addGroup', array('gtype'=>'3'))}" class="btn-sm btn-default add-group">+</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="js_file">
+    <script src="__PUBLIC__/js/admin.groupManage.js"></script>
+</block>

@@ -1,0 +1,57 @@
+#index-body .panel-body {
+    padding: 0;
+}
+
+#index-body .panel-warning > .panel-heading {
+    background-color: palegoldenrod;
+}
+
+#index-body .list-group {
+    margin-bottom: 0;
+}
+
+#index-body .list-group div {
+    display: inline-block;
+}
+
+#index-body .setting-label {
+    width: 48%;
+    font-weight: bold;
+}
+
+#index-body .setting-option {
+    text-align: center;
+    width: 48%;
+}
+
+#index-body .setting-full-btn {
+    text-align: center;
+    width: 100%;
+}
+
+#index-body .add-group {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15pt;
+}
+
+#index-body .add-group:hover {
+    background-color: #f0f0f0;
+}
+
+
+.setting-option input[type="text"] {
+    width: 90%;
+}
+
+.setting-option input[type="radio"] {
+    margin-right: 30%;
+}
+
+.warning-msg {
+    margin-left: 10px;
+    color: darkred;
+    font-weight: bold;
+}

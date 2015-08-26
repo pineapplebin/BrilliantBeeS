@@ -24,32 +24,37 @@ CREATE TABLE IF NOT EXISTS `bbs_user`(
 DROP TABLE IF EXISTS `bbs_level_group`;
 CREATE TABLE IF NOT EXISTS `bbs_level_group`(
     `level_id`  int primary key auto_increment,
-    `level_name` varchar(20) not null,
-    `level_group_auth` varchar(35) not null
+    `level_name` varchar(255) not null,
+    `level_group_auth` varchar(35) not null,
+    UNIQUE (`level_name`)
 )engine=myisam default charset=utf8;
 
 -- 特殊用户组
 DROP TABLE IF EXISTS `bbs_special_group`;
 CREATE TABLE IF NOT EXISTS `bbs_special_group`(
     `special_id`  int primary key auto_increment,
-    `special_name` varchar(20) not null,
-    `special_group_auth` varchar(35) not null
+    `special_name` varchar(255) not null,
+    `special_group_auth` varchar(35) not null,
+    UNIQUE (`special_name`)
 )engine=myisam default charset=utf8;
 
 -- 管理用户组
 DROP TABLE IF EXISTS `bbs_admin_group`;
 CREATE TABLE IF NOT EXISTS `bbs_admin_group`(
     `admin_id` int primary key auto_increment,
-    `admin_name` varchar(20) not null,
-    `admin_group_auth` varchar(35) not null
+    `admin_name` varchar(255) not null,
+    `admin_group_auth` varchar(35) not null,
+    UNIQUE (`admin_name`)
 )engine=myisam default charset=utf8;
 
 -- 权限表
 DROP TABLE IF EXISTS `bbs_authority`;
 CREATE TABLE IF NOT EXISTS `bbs_authority`(
     `auth_id`  int primary key auto_increment,
-    `auth_name` varchar(40),
-    `auth_level` int not null default 1
+    `auth_name` varchar(255),
+    `auth_level` int not null default 1,
+    `auth_type` varchar(50),
+    UNIQUE (`auth_name`)
 )engine=myisam default charset=utf8;
 
 -- 帖
@@ -99,4 +104,31 @@ CREATE TABLE IF NOT EXISTS `bbs_user_plate_relation`(
     `plate_id` int not null,
     `create_time` int default 0,
     CONSTRAINT `pk_user_plate_id` PRIMARY KEY (`user_id`, `plate_id`)
+)engine=myisam default charset=utf8;
+
+-- 晋级群组权限关系表
+DROP TABLE IF EXISTS `bbs_level_auth_relation`;
+CREATE TABLE IF NOT EXISTS `bbs_level_auth_relation`(
+    `group_id` int not null,
+    `auth_id` int not null,
+    `auth_value` varchar(255) default '0',
+    CONSTRAINT `pk_level_auth_id` PRIMARY KEY (`group_id`, `auth_id`)
+)engine=myisam default charset=utf8;
+
+-- 管理群组权限关系表
+DROP TABLE IF EXISTS `bbs_admin_auth_relation`;
+CREATE TABLE IF NOT EXISTS `bbs_admin_auth_relation`(
+    `group_id` int not null,
+    `auth_id` int not null,
+    `auth_value` varchar(255) default '0',
+    CONSTRAINT `pk_admin_auth_id` PRIMARY KEY (`group_id`, `auth_id`)
+)engine=myisam default charset=utf8;
+
+-- 特殊群组权限关系表
+DROP TABLE IF EXISTS `bbs_special_auth_relation`;
+CREATE TABLE IF NOT EXISTS `bbs_special_auth_relation`(
+    `group_id` int not null,
+    `auth_id` int not null,
+    `auth_value` varchar(255) default '0',
+    CONSTRAINT `pk_special_auth_id` PRIMARY KEY (`group_id`, `auth_id`)
 )engine=myisam default charset=utf8;
