@@ -20,8 +20,8 @@ class PlateController extends NormalBaseController {
         $result = $post->where(array('post_plate' => $id))->select();
         $this->assign('post_title',$result[1]['post_title']);
         //时间戳转时间
-        $result_time=$post->where(array('post_plate' => $id))->field('post_time')->select();
-        $length=0;
+        $result_time = $post->where(array('post_plate' => $id))->field('post_time')->select();
+        $length = 0;
         while($result_time[$length]!=''){            
             $times[$length]=date("Y-m-d",implode($result_time[$length]));
             $length++;
