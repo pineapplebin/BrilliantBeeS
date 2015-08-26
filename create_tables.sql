@@ -82,8 +82,9 @@ CREATE TABLE IF NOT EXISTS `bbs_reply`(
     `reply_post_id` int not null,
     `reply_content` varchar(1000) not null,
     `reply_author_id` int not null,
-    `reply_author_name` int not null,
-    `reply_time` varchar(20) not null
+    `reply_author_name` varchar(20) not null,
+    `reply_time` varchar(20) not null,
+    `reply_floor` int not null default 1
 )engine=myisam default charset=utf8;
 
 -- 板块

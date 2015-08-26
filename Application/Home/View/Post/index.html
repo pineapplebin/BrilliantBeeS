@@ -1,38 +1,53 @@
-<extend name="./Template/Public/base.html" />
-<block name="js_file">
-	<script type="text/javascript">
-	function check(){
-		var title = document.getElementById('post_title').value;
-		var content = document.getElementById('post_content').value;
-		if(title==''||content=='') {
-			alert('主题和内容不能为空');
-			return false;
+<extend name="./Template/Public/base.html"/>
 
-		}
-		else return true;
-	}
-	</script>
-</block>
-<block name="l-bar">
-	<em>&nbsp > &nbsp</em>
-	<a href="{:U('Plate/forum?id='.$plate_id)}" style="color:black">{$plate_name}</a>
-</block>
 <block name="content">
-	<div style="background-color:#DDE5F2;margin-top:10%;margin-left:10%;border-radius:10px;border:2px solid #333;width:60%;height:500px">
-	<form action="{:U('handle')}" method="post" >
-	<div style="margin-top:50px;margin-left:15px">
-		<p style="float:left">主题：</p>
-		<input type="text" style="width:590px;height:25px" name="post_title" id="post_title">		
-	</div>
-	<div style="margin-top:20px;margin-left:15px">
-		<p>内容：</p>
-		<textarea rows="20" cols="100" style="width:650px;height:300px" name="post_content" id="post_content"></textarea>		
-	</div>
-	<div style="margin-top:10px;margin-left:15px">
-		<input type="hidden" name="plate_id" value="{$plate_id}">
-		<input type="submit" value="提交" class="btn btn-default" />
-		<input type="reset" value="重置" class="btn btn-default" />				
-	</div>
-	</form>	
-	</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{$Post.post_title}</div>
+        <div class="list-group">
+            <div class="list-group-item">
+                <!--楼主-->
+                <div class="post-author">{$Post.post_author_name}</div>
+                <div class="post-content">
+                    <div class="panel-heading">
+                        发表于&nbsp;{$Post.post_time|date='Y-m-d H:i:s', ###}
+                        <label style="float: right">#楼主</label>
+                    </div>
+                    <div class="panel-body">{$Post.post_content}</div>
+                </div>
+            </div>
+            <!--回复贴,当回复数($reply_num)大于0,显示;-->
+            <if condition="$reply_num gt 0">
+                <volist name="Reply" id="v">
+                    <div class="list-group-item">
+                        <div class="post-author">{$v.reply_author_name}</div>
+                        <div class="post-content">
+                            <div class="panel-heading">
+                                发表于&nbsp;{$v.reply_time|date='Y-m-d H:i:s', ###}
+                                <label style="float: right">#{$v.reply_floor}楼</label>
+                            </div>
+                            <div class="panel-body">{$v.reply_content}</div>
+                        </div>
+                    </div>
+                </volist>
+            </if>
+        </div>
+    </div>
+
+    <form action="{:U('reply')}" method="post">
+        <div class="panel panel-primary">
+            <div class="panel-heading">回复帖子</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <textarea class="form-control" name="reply_content" rows="5" placeholder="说点什么吧..."></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" value="回复"/>
+            </div>
+        </div>
+        <!-- 隐藏域 提交帖子ID-->
+        <input type="hidden" name="reply_post_id" value="{$Post['post_id']}"/>
+    </form>
+
+</block>
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/home.post.index.css" type="text/css"/>
 </block>

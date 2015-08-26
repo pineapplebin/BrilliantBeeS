@@ -2,68 +2,133 @@
 namespace Home\Controller;
 use Common\Controller\NormalBaseController;
 
-class PostController extends NormalBaseController {
-
-    public function index($id,$plate_name) {
-        $plate_id = I('get.id');
-        $plate_name = I('get.plate_name');
-        
-        if(session('user_name')==''||session('user_id')==''){
-            flash('请先登录');
-            $this->redirect('Plate/forum?id='.$plate_id);
-        }
-        $this->assign('plate_id',$plate_id);
-        $this->assign('plate_name',$plate_name);
-        $this->display();
-    }
-
-    //发帖处理函数
-    public function handle(){
-        $title = I('post.post_title');
-        $content = I('post.post_content');
-        $plate_id = I('post.plate_id');
-
-        if($title==''||$content==''){
-            flash('主题和内容不能为空');
-            $this->redirect('index?id='.$plate_id);
-        }
-
-        $time = time();
-        $auth_name = session('user_name');
-        $auth_id = session('user_id');
-        $last_reply_time = $time;
-
-        $post_data['post_title']=$title;
-        $post_data['post_content']=$content;
-        $post_data['post_time']=$time;
-        $post_data['post_last_reply_time']=$last_reply_time;
-        $post_data['post_author_id']=$auth_id;
-        $post_data['post_author_name']=$auth_name;
-        $post_data['post_plate']=$plate_id;
-
-        $post=M('post');
-        if($post->add($post_data)) $this->redirect('Plate/forum?id='.$plate_id);
-        else {
-            flash('发帖失败');
-            $this->redirect('index?id='.$plate_id);
+class PostController extends NormalBaseController{
+    public function index(){
+        $post_id = I('get.post_id');
+        $post = M('post');
+        $reply = M('reply');
+        $Post = $post -> where(array('post_id' => $post_id)) -> find();            // 贴子信息
+        $Reply = $reply -> where(array('reply_post_id' => $post_id)) -> select();  // 回复贴信息
+        $reply_num = count($Reply,1);                                              // 回复数
+        if($Post){
+            $this -> assign('Post',$Post);
+            $this -> assign('Reply',$Reply);
+            $this -> assign('reply_num',$reply_num);
+            $this -> display();
+        }else{
+            $this -> error('帖子不存在');
+            exit;
         }
 
     }
+    public  function handle(){
+        if(!empty($_POST)){
+            $title = I('post.post_title');
+            $content = I('post.post_content');
+            $post_author_id = session('user_id');
+            $post_author_name = session('user_name');
 
-    //浏览贴函数
-    public function forum($id,$plate_id,$plate_name){
-        $post_id = I('get.id');        
-        $plate_id = I('get.plate_id');
-        $plate_name = I('get.plate_name');
+            $can_save = true;
 
-        $post_title = M('post')->where('post_id='.$post_id)->getField('post_title');
-        $this->assign('plate_id',$plate_id);
-        $this->assign('plate_name',$plate_name);
-        $this->assign('post_title',$post_title);
-        $this->assign('post_id',$post_id);
+            if($title == '' || $content == ''){
+                $can_save = false;
+                $this -> error('标题和内容不能为空');
+                exit;
+            }
+            if($post_author_id == '' || $post_author_name == ''){
+                $can_save = false;
+                $this -> error('你没有发帖的权限,请升级!');
+            }
+            if($can_save){
+                $time = strtotime('now');
+                $post_plate = I('post.plate_id');
 
-        
-        $this->display();
+                $post_data = array(
+                    'post_title' => $title,
+                    'post_content' => $content,
+                    'post_time' => $time,
+                    'post_last_reply_time' => $time,
+                    'post_plate' => $post_plate,
+                    'post_author_id' => $post_author_id,
+                    'post_author_name' => $post_author_name,
+                );
 
+                $post = M('post');
+                $post_result = $post -> data($post_data) -> add();
+                // 对应板块的帖子总数加1
+                $plate = M('plate');
+                $plate_result = $plate -> where(array('plate_id' => $post_plate))-> setInc('plate_post_count');
+
+                if($post_result && $plate_result){
+                    flash('发贴成功!','green');
+                    $this -> redirect('/forum/'.$post_plate);
+                }else{
+                    $this -> error('发贴失败!');
+                }
+
+            }else{
+                $this -> error('发贴失败!');
+            }
+
+        }else{
+            $this -> display('Plate/index');
+        }
+    }
+
+    // 处理回帖
+    public  function reply(){
+        if(!empty($_POST)){
+            $reply_content = I('post.reply_content');
+            $reply_post_id = I('reply_post_id');
+            $reply_author_id = session('user_id');
+            $reply_author_name = session('user_name');
+
+            $can_save = true;
+
+            if($reply_content == '' || $reply_post_id == ''){
+                $can_save = false;
+                $this -> error('回复内容不能为空!');
+                exit;
+            }
+            if($reply_author_id == '' || $reply_author_name == ''){
+                $can_save = false;
+                $this -> error('你没有发帖的权限,请升级!');
+            }
+
+            if($can_save){
+                $reply_time = strtotime('now');
+                $reply = M('reply');
+                $post = M('post');
+
+                $Post= $post -> where(array('post_id' => $reply_post_id))-> find();
+                $post_reply_count = $Post['post_reply_count'] + 2;                  //楼层数=当前回复数+2
+
+                $data = array(
+                    'reply_post_id' => $reply_post_id,
+                    'reply_content' => $reply_content,
+                    'reply_author_id' => $reply_author_id,
+                    'reply_author_name' => $reply_author_name,
+                    'reply_time' => $reply_time,
+                    'reply_floor' => $post_reply_count
+                );
+                $reply_result=$reply -> data($data) -> add();
+
+                // 更新帖子回复数,最后回复时间
+                $post -> post_last_reply_count = $post_reply_count;
+                $post -> post_last_reply_time = $reply_time;
+                $post_result = $post -> where(array('post_id' => $reply_post_id))-> setInc('post_reply_count');
+
+                if($reply_result && $post_result){
+                    flash('回帖成功!','green');
+                    $this -> redirect('index?post_id='.$reply_post_id);
+                }else{
+                    $this -> error('回帖失败!');
+                }
+            }
+
+
+        }else{
+            $this -> display('Plate/index');
+        }
     }
 }

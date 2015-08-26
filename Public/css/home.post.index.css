@@ -1,0 +1,14 @@
+.post-author {
+    display: inline-block;
+}
+.post-content {
+    display: inline-block;
+}
+.post-author {
+    width: 15%;
+    border-right: 1px inset lightgray;
+}
+.post-content {
+    width: 80%;
+    padding-left: 15px;
+}

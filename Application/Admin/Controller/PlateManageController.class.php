@@ -70,7 +70,6 @@ class PlateManageController extends AdminBaseController {
             flash('板块名已被使用');
             $this->redirect('newPlate');
         }
-
         // 数据写入
         $data = array(
             'plate_name'=>I('post.plateName'),

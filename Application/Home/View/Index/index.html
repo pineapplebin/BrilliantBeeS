@@ -2,9 +2,9 @@
 
 <block name="title">{:C('SITE_NAME')} - 首页</block>
 <block name="content">
+
 <div class="row">
     <foreach name="plate" item="pla">
-    <div class="col-sm-12">
         <div class="panel panel-default">
             <a href="{:U('/forum/'.$pla['plate_id'])}">
                 <div class="panel-heading">
@@ -15,7 +15,6 @@
                 {$pla.plate_desc}
             </div>
         </div>
-    </div>
     </foreach>
 </div>
 </block>
