@@ -12,6 +12,8 @@ VALUES ('阅读权限', 1, 'string');
 INSERT INTO `bbs_authority` (`auth_name`, `auth_level`, `auth_type`)
 VALUES ('进入后台', 10, 'boolean');
 
+INSERT INTO `bbs_authority` (`auth_name`, `auth_level`, `auth_type`)
+VALUES ('管理板块', 7, 'boolean');
 
 # INSERT INTO  `bbs_authority` (`auth_name`, `auth_level`)
 # VALUES ('访问论坛', 1);

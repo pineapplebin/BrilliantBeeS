@@ -61,6 +61,7 @@ class SignupController extends NormalBaseController {
                 'user_name' => $username,
                 'user_password' => $password,
                 'user_email' => $email,
+                'user_signup_time' => strtotime('now'),
             );
             if ($user->data($data)->add()) {
                 flash('你已经成功注册', 'green');

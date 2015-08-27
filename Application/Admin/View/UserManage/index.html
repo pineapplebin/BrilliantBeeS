@@ -3,21 +3,28 @@
 <block name="title">UserManage</block>
 
 <block name="css_file">
-    <link href="__PUBLIC__/css/admin.usermanage.css" type="text/css" rel="stylesheet"/>
+    <link href="__PUBLIC__/css/admin.userManage.css" type="text/css" rel="stylesheet"/>
 </block>
-<block name="li_sel">
-                <li><a href="{:U('Admin/SiteSetting/index')}">后台首页</a></li>
-                <li><a href="{:U('Admin/UserGroup/index')}">用户组权限管理</a></li>
-                <li><a href="{:U('Admin/PlateManage/index')}">论坛版块管理</a></li>
-                <li class="active"><a href="{:U('Admin/UserManage/index')}">用户管理</a></li>
-            </block>    
 
 <block name="content">
-    <form action="{:U('index')}" method="post" id="search">
+    <h2>{$title}</h2>
+    <hr>
+    <div class="alert alert-success" role="alert" style="margin-bottom: 20px;">
+        <strong>搜索使用说明：</strong>请遵循下面说明的语法使用，对象名称为表格括号中的英文名字<a style="margin-left: 10px;" href="javascript:" id="open-descripition">展开</a><br>
+        <span id="search-description" style="display: none;">
+            1. 希望搜索指定的内容请使用'<code>=</code>'，例：<code>name = Hello</code>，为搜索用户名为Hello的用户，均不支持模糊搜索，不区分大小写<br>
+            2. 希望搜索指定范围的内容请使用'<code><, >, <=, >=</code>'，例：<code>time <= 2015-08-26</code>，为搜索2015年8月26日前注册的用户，输入时间只支持横杠划分，只支持年月日<br>
+            3. 希望多项条件搜索请使用以下符号：与—'<code>&&</code>'，或—'<code>||</code>'，例：<code>level_group < 4 || level_group > 1</code>，为搜索level_group为2和3的用户，同样注意需要留有空格<br>
+            4. 希望搜索除指定值以外的结果请使用'<code><></code>'，例：<code>level_group <> 1</code>，为搜索晋级用户组id不为1的用户，具体用户组id请查看用户组管理<br>
+            5. 支持使用括号<code>()</code>进行复杂查询，注意，条件输入时对象名称、搜索符号、搜索值、括号之间都应该留有空格，否则会当做搜索语句错误，例：<code>( name = Hello )</code>，括号与名称还有符号间应保持一个空格才能成功搜索<br>
+            6. 所有搜索的结果最多只会显示50条数据
+        </span>
+    </div>
+    <form action="{:U('search')}" method="post" id="search">
         <div class="row">
             <div class="col-lg-5">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="user_name" placeholder="用户名" aria-label="...">
+                    <input type="text" class="form-control" name="search" placeholder="请阅读搜索使用说明后，按需要填入搜索语句" aria-label="..." autocomplete="off" value="{:I('get.s')}">
                     <div class="input-group-btn">
                         <button type="summit" class="btn btn-default"  aria-haspopup="true" aria-expanded="false">搜索</button>
                     </div><!-- /btn-group -->
@@ -31,68 +38,54 @@
     <div style="float: right">共&nbsp;<span class="text-primary">{$count}</span>&nbsp;条记录</div>
     <br/>
 
-    <form action="{:U('delete_all')}" method="post" id="delete">
+    <form action="{:U('deleteBatchHandle')}" method="post" id="delete">
         <!-- 表格-->
         <table class="table table-bordered table-condensed table-hover">
             <!--表头 -->
-            <tr class="info">
+            <thead style="font-weight: bold;">
                 <th>#</th>
-                <th>ID</th>
-                <th>用户名</th>
-                <th>邮箱</th>
-                <th>晋级用户组</th>
-                <th>特殊用户组</th>
-                <th>管理用户组</th>
-                <th>注册时间</th>
+                <th>ID<br>(id)</th>
+                <th>用户名<br>(name)</th>
+                <th>邮箱<br>(email)</th>
+                <th>晋级用户组<br>(level_group)</th>
+                <th>特殊用户组<br>(special_group)</th>
+                <th>管理用户组<br>(admin_group)</th>
+                <th>注册时间<br>(time)</th>
                 <th>编辑</th>
                 <th>删除</th>
-            </tr>
+            </thead>
 
             <!-- 表内容-->
             <volist name="list" id="v">
-                <tr name="tr" class="" id="tr-{$v.user_id}">
+                <tr name="tr" style="vertical-align: middle;" id="tr-{$v.user_id}">
                     <td>
-                        <div class="checkbox">
-                            <!-- checkbox 的name 属性为一个数组,表单提交时,会将勾选的value值存到名为name的数组-->
-                            <label><input id="checkbox-{$v.user_id}" type="checkbox" name="delete_all[]" value="{$v.user_id}"></label>
-                        </div>
+                        <input class="delete-checkbox" id="checkbox-{$v.user_id}" type="checkbox" name="delete_all[]" value="{$v.user_id}">
                     </td>
-                    <td>{$v.user_id}</td>
-                    <td>{$v.user_name}</td>
-                    <td>{$v.user_email}</td>
+                    <td>{$v['user_id']}</td>
+                    <td>{$v['user_name']}</td>
+                    <td>{$v['user_email']}</td>
                     <if condition="$v.user_level_group eq 0">
                         <td>不属于</td>
-                        <else/><td>Lv{$v.user_level_group}</td>
+                        <else/>
+                        <php>echo '<td>'.$group_info['level'][$v['user_level_group']]['level_name'].'</td>';</php>
                     </if>
 
                     <if condition="$v.user_special_group eq 0">
                         <td>不属于</td>
-                        <elseif condition="$v.user_special_group eq 1"/>
-                        <td>禁止IP</td>
-                        <elseif condition="$v.user_special_group eq 2"/>
-                        <td>禁止发言</td>
-                        <elseif condition="$v.user_special_group eq 3"/>
-                        <td>游客</td>
-                        <elseif condition="$v.user_special_group eq 4"/>
-                        <td>待验证</td>
+                        <else/>
+                        <php>echo '<td>'.$group_info['special'][$v['user_special_group']]['special_name'].'</td>';</php>
                     </if>
 
                     <if condition="$v.user_admin_group eq 0">
                         <td>不属于</td>
-                        <elseif condition="$v.user_admin_group eq 1"/>
-                        <td>版主助理</td>
-                        <elseif condition="$v.user_admin_group eq 2"/>
-                        <td>版主</td>
-                        <elseif condition="$v.user_admin_group eq 3"/>
-                        <td>超级版主</td>
-                        <elseif condition="$v.user_admin_group eq 4"/>
-                        <td>管理员</td>
+                        <else/>
+                        <php>echo '<td>'.$group_info['admin'][$v['user_admin_group']]['admin_name'].'</td>';</php>
                     </if>
                     <td>
-                        {$v.user_signup_time|date='Y-m-d H:i:s',###}
+                        {$v['user_signup_time']|date='Y-m-d H:i',###}
                     </td>
-                    <td><a href="__MODULE__/UserManage/update/user_id/{$v.user_id}">修改</a></td>
-                    <td><a href="__MODULE__/UserManage/delete/user_id/{$v.user_id}" style="color: firebrick">删除</a></td>
+                    <td><a href="{:U('update', array('user_id'=>$v['user_id']))}">修改</a></td>
+                    <td><a href="{:U('delete', array('user_id'=>$v['user_id']))}" style="color: firebrick">删除</a></td>
                 </tr>
             </volist>
         </table>
@@ -100,9 +93,9 @@
         <!-- 没有搜索到用户时显示的提示信息-->
         <div><h1>{$notice}</h1></div>
 
-        <div class="checkbox" >
-            <label><input type="checkbox" id="check_all" onclick="checkAll()">全选</label>&nbsp;&nbsp;&nbsp;
-            <input class="btn btn-danger" type="button" onclick="deleteAll()" value="批量删除用户">
+        <div class="checkbox">
+            <label style="margin-right: 10px;"><input type="checkbox" id="check_all" onclick="checkAll()">全选</label>
+            <input id="deleteAll-btn" class="btn btn-danger" type="button" onclick="deleteAll()" value="批量删除用户">
         </div>
         <div id="page-div">{$page}</div>
     </form>

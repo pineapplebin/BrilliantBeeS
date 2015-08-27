@@ -107,3 +107,47 @@ body {
 .alert {
     margin-bottom: 5px;
 }
+
+#page-div {
+    width: 100%;
+    margin-top: 20px;
+}
+
+#page-div a.num {
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857;
+    color: #333;
+    text-decoration: none;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+}
+
+#page-div a.prev, a.next {
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857;
+    color: #333;
+    text-decoration: none;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+#page-div a:hover {
+    background-color: #eee;
+}
+
+#page-div span.current {
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857;
+    text-decoration: none;
+    z-index: 2;
+    color: #FFF;
+    cursor: default;
+    background-color: #999;
+    border-color: #DDDDDD;
+}

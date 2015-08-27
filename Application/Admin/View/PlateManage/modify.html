@@ -1,0 +1,55 @@
+<extend name="./Template/Public/admin_base.html"/>
+
+<block name="css_file">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.plateManage.css"/>
+</block>
+
+<block name="title">{:C('SITE_NAME')} - 版主信息</block>
+
+<block name="content">
+    <h2>板块 - <span class="alert-warning">{$plate['plate_name']}</span></h2>
+    <hr>
+    <form action="{:U('modifyHandle')}" method="post" id="newplate-form">
+    <h4 class="modify-sub-title">版块信息</h4>
+    <a href="javascript:" class="btn-sm btn-primary" id="edit-btn">编辑</a>
+    <div id="plate-info">
+        <label for="plate_name">板块名称:</label>
+        <p id="fake-name" class="fake-input">{$plate['plate_name']}</p>
+        <input type="text" value="{$plate['plate_name']}" id="plate_name" class="form-control" name="plate_name" style="display: none;" />
+        <label for="plate_desc">板块描述:</label>
+        <p id="fake-desc" class="fake-input fake-textarea">{$plate['plate_desc']}</p>
+        <textarea class="form-control" name="plate_desc" id="plate_desc" cols="100" rows="4" placeholder="请输入板块描述" style="display: none">{$plate['plate_desc']}</textarea><br>
+        <input type="hidden" value="{$plate['plate_id']}" name="plate_id"/>
+        <button type="submit" class="btn btn-danger" id="submit-btn" style="display: none;">保存</button>
+        <a href="javascript:" class="btn btn-default" id="cancel-btn" style="display: none;">取消</a>
+    </div>
+    </form>
+    <hr>
+    <h4 class="modify-sub-title">版主信息</h4>
+    <a href="{:U('addAdmin',array('pid'=>$plate['plate_id']))}" class="btn-sm btn-primary">增加</a>
+    <table class="table table-hover">
+        <thead style="font-weight: bold;">
+            <td>版主ID</td>
+            <td>版主名称</td>
+            <td>版主身份</td><!--版主/超级版主-->
+            <td>指定时间</td>
+            <td>操作</td>
+        </thead>
+        <foreach name="admin" item="u">
+            <tr>
+                <td>{$u['user_id']}</td>
+                <td>{$u['user_name']}</td>
+                <td>{$u['user_admin_group']}</td>
+                <td>{$u['create_time']|date='Y-m-d H:i', ###}</td>
+                <td>
+                    <a href="{:U('deleteAdmin',array('uid'=>$u['user_id'], 'pid'=>$u['plate_id']))}">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <a href="{:U('index')}" class="btn btn-default">返回</a>
+</block>
+
+<block name="js_file">
+    <script src="__PUBLIC__/js/admin.plateManage.js"></script>
+</block>

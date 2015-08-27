@@ -27,15 +27,13 @@
                     版主数:{$v['user_id']|count=###}
                 </td>
                 <td>
-                    <a class="btn-sm btn-primary" href="{:U('plateAdminManage',array('pid'=>$v['plate_id']))}">管理</a>
-                    <a class="btn-sm btn-danger" href="{:U('deletePlate',array('pid'=>$v['plate_id']))}" >删除</a>
+                    <a href="{:U('modify',array('pid'=>$v['plate_id']))}">管理</a>
+                    <a style="color: indianred;" href="{:U('deletePlate',array('pid'=>$v['plate_id']))}" >删除</a>
                 </td>
             </tr>
         </foreach>
-        <tr>
-            <td colspan="6" align="center">
-                {$page}
-            </td>
-        </tr>
     </table>
+    <div id="page-div">
+        {$page}
+    </div>
 </block>

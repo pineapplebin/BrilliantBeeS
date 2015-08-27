@@ -9,170 +9,338 @@ namespace Admin\Controller;
 use Common\Controller\AdminBaseController;
 
 class UserManageController extends AdminBaseController {
-    // 用户信息显示
-    public function index(){
-        //查询用户具体用户 // 数据分页
+
+    /**
+     * 用户管理首页
+     * 显示用户信息
+     */
+    public function index() {
+        // 数据分页
         $user = M('user');
-        if(!empty($_POST)){
-            $page = new \Think\Page(1,1);
-            // 数据集
-            if(I('user_name')== ''){
-                $this -> redirect('index');
+        $count = $user->count();             // 总条数
+        $page = new \Think\Page($count, 15);    // 设置每页显示条数为10条
+
+        // 分页设置
+        $page->setConfig('prev','上一页');
+        $page->setConfig('next','下一页');
+        $page->setConfig('first', '首页');
+        $page->setConfig('end', '末页');
+        $this->assign('count',$count);     //总记录数
+        $list = $user->order('user_id DESC')
+            ->limit($page->firstRow.','.$page->listRows)->select();
+
+        // 读取数据库得到bbs_user里面group_id表示的组别
+        $type_group = array(
+            'level' => M('level_group')->select(),
+            'special' => M('special_group')->select(),
+            'admin' => M('admin_group')->select(),
+        );
+        $group_info = array();
+        foreach ($type_group as $key=>$type) {
+            foreach ($type as $group) {
+                $group_info[$key][$group[$key.'_id']] = $group;
             }
-            $condition['user_name'] = I('user_name');
-            $list = $user -> where($condition)-> limit($page->firstRow.','.$page->listRows)-> select();
-            $this -> assign('count',1);            // 总记录数
-
-            if(count($list)== 0){
-                $notice = "该用户不存在!";
-                $this -> assign('notice',$notice);
-                $this -> assign('count',0);        // 总记录数
-            }
-
-        } else {                                   // 没有查询用户，默认显示全部用户信息
-            $count = $user -> count();             // 总条数
-            $page = new \Think\Page($count,10);    // 设置每页显示条数为10条
-
-            // 样式定制
-            $page -> setConfig('prev','上一页');
-            $page -> setConfig('next','下一页');
-            $page -> setConfig('first', '首页');
-            $page -> setConfig('end', '末页');
-            $this -> assign('count',$count);     //总记录数
-            // 数据集
-            $list = $user ->order('user_id DESC')-> limit($page->firstRow.','.$page->listRows)-> select();
-
         }
+
         $show = $page -> show();
-        $this -> assign('list',$list);
-        $this -> assign('page',$show);
-        $this -> display();
+        $this->assign('title', '用户管理');
+        $this->assign('group_info', $group_info);
+        $this->assign('list',$list);
+        $this->assign('page',$show);
+        $this->display();
     }
 
-    // 修改用户数据
+    /**
+     * 搜索处理
+     * 按输入的搜索语句进行搜索，若为空则重定向至用户管理首页
+     */
+    public function search() {
+        if (!IS_POST || I('post.search') == '') $this->redirect('index');
+        $search = I('post.search');
+
+        // 更换内容
+        $search = str_replace('&gt;', '>', $search);
+        $search = str_replace('&lt;', '<', $search);
+        $search = str_replace('&amp;', '&', $search);
+
+        // 检验语法
+        $element_list = preg_split('/ +/', $search);
+        $l_bracket_count = 0;
+        $r_bracket_count = 0;
+        // 遍历元素
+        $field_list = array('id', 'name', 'email', 'level_group', 'special_group', 'admin_group');
+        foreach ($element_list as $key=>$element) {
+            if (preg_match('/;/', $element)) {
+                flash('搜索语句有误，请检验语句是否合法');
+                $this->redirect('index', array('s'=>$search));
+            }
+            if (preg_match('/[=\&\|\(\)][\w\d]+$/', $element) ||
+                preg_match('/^[\w\d]+[=\&\|\(\)]/', $element)) {
+                flash('搜索语句有误，请检验空格是否有遗漏');
+                $this->redirect('index', array('s'=>$search));
+            }
+            switch ($element) {
+                case '(' : $l_bracket_count++; break;
+                case ')' : $r_bracket_count++; break;
+                case 'time' :
+                    $element_list[$key] = 'user_signup_time';
+                    $element_list[$key+2] = strtotime($element_list[$key+2]);
+                    break;
+            }
+            if (in_array($element, $field_list)) {
+                $element_list[$key] = 'user_'.$element;
+                $element_list[$key+2] = '\''.$element_list[$key+2].'\'';
+            }
+        }
+        if ($l_bracket_count != $r_bracket_count) {
+            flash('搜索语句有误，请检验输入的搜索语句中的括号是否成对或空格是否有遗漏');
+            $this->redirect('index', array('s'=>$search));
+        }
+        $new_search = implode(' ', $element_list);
+
+        $user = M('user');
+        $condition = array('_string' => $new_search);
+        try {
+            $result = $user->where($condition)->limit(50)->select();
+            if (!$result) {
+                $this->assign('notice', '没有找到相关的用户');
+            }
+            // 读取数据库得到bbs_user里面group_id表示的组别
+            $type_group = array(
+                'level' => M('level_group')->select(),
+                'special' => M('special_group')->select(),
+                'admin' => M('admin_group')->select(),
+            );
+            $group_info = array();
+            foreach ($type_group as $key=>$type) {
+                foreach ($type as $group) {
+                    $group_info[$key][$group[$key.'_id']] = $group;
+                }
+            }
+
+            $this->assign('count', count($result));
+            $this->assign('list', $result);
+            $this->assign('title', '用户搜索 - 搜索语句为<code>'.$search.'</code>');
+            $this->assign('group_info', $group_info);
+            $this->display('index');
+        } catch(\Exception $e) {
+            flash('搜索失败，请检验查询语句是否无误');
+            $this->redirect('index', array('s'=>$search));
+        }
+//        print_array($new_search);
+    }
+
+    /**
+     * 修改用户信息
+     * @param $user_id
+     */
     public function update($user_id){
         $user = M('user');
-        // 从修改页面转来，保存数据修改  （PS：post里有数据表明是修改页面的表单传来的数据）
-        if(!empty($_POST)){
-            $user -> create();
-            $result = $user -> save();
 
-            if($result != false){
-                flash('数据修改成功！','green');
-                $this ->redirect('index');
-            } else {
-                flash('数据未作更改!','red');
-                $this -> redirect('index');
+        $info = $user->find($user_id);  // 一维数组
+        if($info == NULL){
+            flash('用户不存在！');
+            $this -> redirect('index');
+        }
+
+        // 读取数据库得到bbs_user里面group_id表示的组别
+        // 生成option标签以供选择
+        $type_group = array(
+            'level' => M('level_group')->select(),
+            'special' => M('special_group')->select(),
+            'admin' => M('admin_group')->select(),
+        );
+        $group_info = array();
+        foreach ($type_group as $key=>$type) {
+            foreach ($type as $group) {
+                $group_info[$key][$group[$key.'_id']] = $group;
             }
+        }
 
-        // （否则就是）点击修改链接时，将数据转向修改页面并展示出来
+        $this->assign('info',$info);
+        $this->assign('group_info', $group_info);
+        $this->display();
+    }
+
+    /**
+     * 修改用户数据处理
+     */
+    public function updateHandle() {
+        if (!IS_POST) $this->redirect('index');
+
+        $user = M('user');
+        try {
+            $user->create();
+            $result = $user->save();
+        } catch(\Exception $e) {
+            flash('发生错误，请重新尝试！');
+            $this->redirect('update');
+        }
+
+        if($result != false){
+            flash('数据修改成功！','green');
         } else {
-            $info = $user -> find($user_id);  // 一维数组
-            if($info == NULL){
-                flash('用户不存在!');
-                $this -> redirect('index');
-            }
-            $this -> assign('info',$info);
-
-            $level = $info['user_level_group'];
-            $special = $info['user_special_group'];
-            $admin = $info['user_admin_group'];
-
-            $this -> assign('Lv'.$level,"selected='selected'");
-            $this -> assign('Sp'.$special,"selected='selected'");
-            $this -> assign('Ad'.$admin,"selected='selected'");
-
-            $this -> display();
+            flash('数据未作更改!');
         }
+        $this ->redirect('index');
     }
 
-    // 删除用户
+    /**
+     * 删除用户页面
+     *
+     * 还应判断该用户是否存在管理板块的情况，
+     * 若存在，则需要先处理才能删除
+     *
+     * @param $user_id
+     */
     public function delete($user_id){
-        $user = M('user');
-        // 从删除页面转来，删除数据  （PS：post里有数据表明是删除面的表单传来的数据）
-        if(!empty($_POST)){
-            $id = I('post.user_id');
-            $condition['user_id'] = array('in',$id);
+        $user = M('user')->where(array('user_id'=>$user_id))->find();
+        $can_delete = true;
 
-            $result = $user->where($condition)->delete();
-
-            if ($result != false)
-                flash('删除成功!', 'green');
-            else
-                flash('删除失败!');
-
-            $this -> redirect('index');
-        // （否则就是）点击修改链接时，将数据转向修改页面并展示出来
-        }else {
-            $this -> assign('user_id',$user_id);
-            $this -> display();
+        // 查找是否正在管理某个板块
+        $relation = M('user_plate_relation')
+            ->join('bbs_plate ON bbs_user_plate_relation.plate_id=bbs_plate.plate_id')
+            ->where(array('user_id'=>$user_id))->select();
+        if (count($relation) != 0) {
+            $can_delete = false;
+            $this->assign('plates', $relation);
         }
-    }
-    // 批量删除用户
-    function delete_all(){
-        $user = M('user');
-        if(!empty($_POST)){
-            $id = I('post.check_all');
-            $condition['user_id'] = array('in',$id);
-            $result = $user->where($condition)->delete();
-            if ($result != false)
-                flash('删除成功!', 'green');
-            else
-                flash('删除失败!');
 
-            $this -> redirect('index');
-        }else{
-            $this -> display('index');
-        }
+        $this->assign('user',$user);
+        $this->assign('can_delete', $can_delete);
+        $this->display();
     }
 
-    // 添加用户
+    /**
+     * 删除用户处理
+     */
+    public function deleteHandle() {
+        if (!IS_POST) $this->redirect('index');
+
+        $user = M('user');
+        $id = I('post.user_id');
+        $condition['user_id'] = $id;
+
+        try {
+            $result = $user->where($condition)->delete();
+        } catch(\Exception $e) {
+            flash('发生错误，请重新尝试');
+            $this->redirect('delete', array('user_id'=>$id));
+        }
+
+        if ($result != false) {
+            flash('删除成功!', 'green');
+        } else {
+            flash('删除失败!');
+        }
+
+        $this -> redirect('index');
+    }
+
+
+    /**
+     * 批量删除用户处理
+     */
+    function deleteBatchHandle(){
+        if (!IS_POST) $this->redirect('index');
+
+        $user = M('user');
+        $ids = I('post.delete_all');
+
+        // 批量删除只能删除不属于管理用户组的用户
+        $condition = array(
+            'user_id' => array('in', $ids),
+            'user_admin_group' => 0,
+        );
+
+        try {
+            $result = $user->where($condition)->delete();
+            if ($result != count($ids)) {
+                $flash_msg = '批量删除只能删除不属于管理用户组的用户！其他用户已被删除';
+            } else {
+                $flash_msg = '批量选中的用户已全被删除！';
+            }
+            flash($flash_msg, 'green');
+        } catch(\Exception $e) {
+            flash('发生错误，请重新尝试！');
+        }
+
+        $this -> redirect('index');
+    }
+
+    /**
+     * 添加用户页面
+     */
     public function add(){
-        //两个逻辑① 展现表单 ② 接收表单数据
-        if(!empty($_POST)){
-            $username = I('post.user_name');
-            $email = I('post.user_email');
-            $password = I('post.user_password');
+        // 读取数据库得到bbs_user里面group_id表示的组别
+        // 生成option标签以供选择
+        $type_group = array(
+            'level' => M('level_group')->select(),
+            'special' => M('special_group')->select(),
+            'admin' => M('admin_group')->select(),
+        );
+        $group_info = array();
+        foreach ($type_group as $key=>$type) {
+            foreach ($type as $group) {
+                $group_info[$key][$group[$key.'_id']] = $group;
+            }
+        }
 
-            if ($username == '' || $email == '' || $password == '') {
-                flash('请输入完整信息');
+        $this->assign('group_info', $group_info);
+        $this->display();
+    }
+
+    /**
+     * 添加用户处理
+     */
+    public function addHandle() {
+        if (!IS_POST) $this->redirect('index');
+
+        $username = I('post.user_name');
+        $email = I('post.user_email');
+        $password = I('post.user_password');
+
+        if ($username == '' || $email == '' || $password == '') {
+            flash('请输入完整信息');
+            $this->redirect('add');
+        }
+
+        $user = M('user');
+        $can_save = true;
+        // 用户名邮箱是否重复
+        $result = $user->where(array('user_name'=>$username))->find();
+        if ($result) {
+            flash('用户名已存在');
+            $can_save = false;
+        }
+        // 邮箱是否重复
+        $result = $user->where(array('user_email'=>$email))->find();
+        if ($result) {
+            flash('该邮箱已被注册');
+            $can_save = false;
+        }
+
+        // 数据写入
+        if ($can_save) {
+            $data = array(
+                'user_name' => $username,
+                'user_password' => $password,
+                'user_email' => $email,
+                'user_signup_time' => strtotime('now'),
+                'user_level_group' => I('post.user_level_group'),
+                'user_special_group' => I('post.user_special_group'),
+                'user_admin_group' => I('post.user_admin_group'),
+            );
+            try {
+                $user->data($data)->add();
+                flash('添加用户成功！', 'green');
+                $this->redirect('index');
+            } catch(\Exception $e) {
+                flash('发生错误，请重新尝试！');
                 $this->redirect('add');
             }
-            $user = M('user');
-            $can_save = true;
-            // 用户名邮箱是否重复
-            $result = $user->where(array('user_name'=>$username))->find();
-            if ($result) {
-                flash('用户名已存在');
-                $can_save = false;
-            }
-            // 邮箱是否重复
-            $result = $user->where(array('user_email'=>$email))->find();
-            if ($result) {
-                flash('该邮箱已被注册');
-                $can_save = false;
-            }
-            if($can_save){
-                $signup_time = strtotime('now');
-                // 保存
-                $data = array(
-                    'user_name' => $username,
-                    'user_password' => $password,
-                    'user_email' => $email,
-                    'user_signup_time' => $signup_time
-                );
-                if ($user->data($data)->add()) {
-                    flash('添加成功!','green');
-                    $this -> redirect('index');
-                } else {
-                    flash('添加失败!', 'red');
-                    $this->redirect('index');
-                }
-            }else{
-                $this -> redirect('add');
-            }
-        }else{
-            $this -> display();
+        } else {
+            $this -> redirect('add');
         }
     }
 }

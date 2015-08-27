@@ -12,6 +12,7 @@ class AdminBaseController extends CommonController {
      * 所有派生自AdminBaseController的控制器都会先执行此方法内的内容
      */
     public function _initialize() {
-
+        $controller = $Think.CONTROLLER_NAME;
+        $this->assign($controller, 'active');
     }
 }

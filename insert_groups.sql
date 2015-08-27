@@ -29,3 +29,15 @@ INSERT INTO  `bbs_level_group` (`level_name`) VALUES ('高级会员');
 INSERT INTO  `bbs_level_group` (`level_name`) VALUES ('资深会员');
 
 INSERT INTO  `bbs_level_group` (`level_name`) VALUES ('骨灰会员');
+
+INSERT INTO  `bbs_admin_auth_relation` (`group_id`, `auth_id`, `auth_value`)
+VALUES (1, 5, 1);
+
+INSERT INTO  `bbs_admin_auth_relation` (`group_id`, `auth_id`, `auth_value`)
+VALUES (2, 5, 1);
+
+INSERT INTO  `bbs_admin_auth_relation` (`group_id`, `auth_id`, `auth_value`)
+VALUES (3, 5, 1);
+
+INSERT INTO  `bbs_admin_auth_relation` (`group_id`, `auth_id`, `auth_value`)
+VALUES (4, 5, 1);

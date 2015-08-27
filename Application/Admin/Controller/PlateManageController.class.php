@@ -19,7 +19,12 @@ class PlateManageController extends AdminBaseController {
 
         // 分页相关
         $count = M('plate')->count();
-        $page = new Page($count,15);
+        $page = new Page($count, 15);
+
+        $page->setConfig('prev','上一页');
+        $page->setConfig('next','下一页');
+        $page->setConfig('first', '首页');
+        $page->setConfig('end', '末页');
         $limit = $page->firstRow.','.$page->listRows;
 
         // 查询板块数据
@@ -117,43 +122,94 @@ class PlateManageController extends AdminBaseController {
     }
 
     /**
-     * 指定板块的版主管理
+     * 指定板块的管理
      *
      * 以多对多形式实现，有独立的bbs_user_plate_relation表示用户与板块的管理关系
      * 本页面显示指定板块的版主信息
      */
-    public function plateAdminManage(){
-        if (!empty(I('get.pid'))) {
-            // 根据get得到的plate_id连接查询bbs_user_plate_relation表
-            $admin = M('user_plate_relation')->where(array('plate_id'=>I('get.pid')))->join('bbs_user ON bbs_user_plate_relation.user_id=bbs_user.user_id')->order('create_time DESC')->select();
-            $plate = M('plate')->where(array('plate_id'=>I('get.pid')))->find();
-            $this->assign('plate', $plate);
-            $this->assign('admin', $admin);
-        }
+    public function modify($pid){
+        // 根据get得到的plate_id连接查询bbs_user_plate_relation表
+        $admin = M('user_plate_relation')
+            ->where(array('plate_id'=>I('get.pid')))
+            ->join('bbs_user ON bbs_user_plate_relation.user_id=bbs_user.user_id')
+            ->order('create_time DESC')->select();
+        $plate = M('plate')->where(array('plate_id'=>I('get.pid')))->find();
+
+        $this->assign('plate', $plate);
+        $this->assign('admin', $admin);
         $this->display();
     }
 
     /**
+     * 板块信息修改处理
+     */
+    public function modifyHandle() {
+        if (!IS_POST) $this->redirect('index');
+
+        $plate_id = I('post.plate_id');
+        $data = array(
+            'plate_name' => I('post.plate_name'),
+            'plate_desc' => I('post.plate_desc'),
+        );
+        $plate = M('plate');
+        try {
+            $result = $plate->where(array('plate_id'=>$plate_id))
+                ->save($data);
+            flash('修改成功！', 'green');
+        } catch(\Exception $e) {
+            flash('修改失败！请重新尝试');
+        }
+        $this->redirect('modify', array('pid'=>$plate_id));
+    }
+
+    /**
      * 增加版主
+     *
+     * 查询拥有‘管理板块’权限的管理用户组
+     * 列举这些用户组的用户
      */
     public function addAdmin(){
         $pid = I('pid');
+        // 查询条件为拥有‘管理板块’这个权限的管理用户组
+        $auth_id = 5;  // ‘管理板块’id
+        $right_group = M('admin_auth_relation')
+            ->field('group_id')
+            ->where(array('auth_id'=>$auth_id, 'auth_value'=>1))
+            ->select();
+        $right_group_condition = array();
+        foreach ($right_group as $key=>$group) {
+            $right_group_condition[$key] = $group['group_id'];
+        }
         $condition = array(
-            'user_admin_group' => array(array('eq', 2), array('eq', 3), 'or'),
+            'user_admin_group' => array('in', $right_group_condition),
         );
-        $result = M('user_plate_relation')->join('RIGHT JOIN bbs_user ON bbs_user_plate_relation.user_id=bbs_user.user_id')->where($condition)->select();
-        $admin = array();
+        // 联合查询用户数据
+        $result = M('user_plate_relation')
+            ->join('RIGHT JOIN bbs_user ON bbs_user_plate_relation.user_id=bbs_user.user_id')
+            ->where($condition)->order('user_admin_group')->select();
+//        print_array($result);
+        $admins = array();
+        // 整理查询结果数据，顺序判断用户是否为当前板块的版主
         foreach ($result as $key=>$value) {
             $index = (int)$value['user_id'];
-            $admin[$index] = $value;
+            $admins[$index] = $value;
             if ($value['plate_id'] == $pid) {
-                $admin[$index]['can_admin_plate'] = false;
+                $admins[$index]['can_admin_plate'] = false;
             } else {
-                $admin[$index]['can_admin_plate'] = true;
+                $admins[$index]['can_admin_plate'] = true;
             }
         }
-        $this->assign('addAdmin', $admin);
+
+        // 查询管理用户组得到名字
+        $admin_rows = M('admin_group')->select();
+        $admin_group = array();
+        foreach ($admin_rows as $row) {
+            $admin_group[$row['admin_id']] = $row;
+        }
+
+        $this->assign('admins', $admins);
         $this->assign('plate_id', $pid);
+        $this->assign('admin_group', $admin_group);
         $this->display();
     }
 
@@ -173,7 +229,7 @@ class PlateManageController extends AdminBaseController {
             );
             try {
                 $relation->data($data)->add();
-                flash('添加成功！');
+                flash('添加成功！', 'green');
             } catch (\Exception $e) {
                 flash('发生错误，请重试！');
             }

@@ -5,5 +5,5 @@
   'OPEN_SIGNUP_VERIFY' => '1',
   'LOGIN_ERROR_COUNT' => 0,
   'LOGIN_ERROR_TIME' => 0,
-  'AUTHORITY_SUM' => '4',
+  'AUTHORITY_SUM' => '5',
 );

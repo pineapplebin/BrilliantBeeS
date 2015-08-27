@@ -1,14 +1,44 @@
 <extend name="./Template/Public/admin_base.html" />
 
-<block name="title">删除用户</block>
+<block name="title">{:C('SITE_NAME')} - 删除用户</block>
+
 <block name="content">
-    <form action="{:U('delete')}" method="post">
-        <!-- 隐藏域传递user_id,用于确认删除的对象-->
-        <input type="hidden" name="user_id" value="{$user_id}"/>
-        <h1>真的要删除该用户??</h1><br/><br/>
-        <div>
-            <a href="{:U('index')}"><input type="button" value="返回" class="btn btn-primary"></a>&nbsp;&nbsp;
-            <input type="submit" value="确认" class="btn btn-primary"/>
-        </div>
+    <form action="{:U('deleteHandle')}" method="post">
+        <!-- 隐藏域传递user_id,用于确认删除的对象 -->
+        <input type="hidden" name="user_id" value="{$user['user_id']}"/>
+        <h2>删除用户 - <span class="alert-warning">{$user['user_name']}</span></h2>
+        <if condition="$can_delete eq 1">
+            <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+                <strong>警告：</strong>目前删除为硬删除，点击确认后用户数据会从数据库中永久删除，请确认
+            </div>
+            <hr>
+            <div>
+                <a href="{:U('index')}" class="btn btn-default">返回</a>
+                <input type="submit" value="确认" class="btn btn-danger"/>
+            </div>
+        <else/>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+                <strong>注意：</strong>该用户目前仍是被指定的版主，请根据下面板块信息，取消指定该用户作为板块版主之后才能删除该用户。可点击板块名字进入板块管理
+            </div>
+            <hr>
+            <div class="">
+                <table class="table table-hover">
+                    <thead style="font-weight: bold;">
+                        <td>板块ID</td>
+                        <td>板块名字</td>
+                        <td>该用户指定为版主的时间</td>
+                    </thead>
+                    <foreach name="plates" item="plate">
+                        <tr>
+                            <td>{$plate['plate_id']}</td>
+                            <td><a href="{:U('Admin/PlateManage/modify', array('pid'=>$plate['plate_id']))}">{$plate['plate_name']}</a></td>
+                            <td>{$plate['create_time']|date='Y-m-d H:i', ###}</td>
+                        </tr>
+                    </foreach>
+                </table>
+            </div>
+            <a href="{:U('index')}" class="btn btn-default">返回</a>
+        </if>
+
     </form>
 </block>

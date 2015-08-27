@@ -60,4 +60,67 @@ $(function() {
             items[i].checked = all.checked;                     //所有的checkbox的'选中'属性和全选的一样
         }
     });
+
+    /**
+     * modify页面的编辑按钮
+     */
+    $('#edit-btn').click(function() {
+        var fake_name = $('#fake-name');
+        fake_name.css('display', 'none');
+        var fake_desc = $('#fake-desc');
+        fake_desc.css('display', 'none');
+
+        var name = $('input[name=plate_name]');
+        var desc = $('textarea[name=plate_desc]');
+
+        name.css('display', 'inline-block');
+        name.focus();
+        name.val(fake_name.text());
+        desc.css('display', 'inline-block');
+        desc.val(fake_desc.text());
+        $('#cancel-btn').css('display', 'inline');
+        $('#submit-btn').css('display', 'inline');
+    });
+
+    /**
+     * modify页面的取消编辑按钮
+     */
+    $('#cancel-btn').click(function() {
+        $('.warning-msg').remove();
+
+        $('#fake-name').css('display', 'inline-block');
+        $('#fake-desc').css('display', 'inline-block');
+
+        $('input[name=plate_name]').css('display', 'none');
+        $('textarea[name=plate_desc]').css('display', 'none');
+        $('#cancel-btn').css('display', 'none');
+        $('#submit-btn').css('display', 'none');
+    });
+
+    /**
+     * modify页面的保存修改按钮
+     */
+    $('#submit-btn').click(function() {
+        $('.warning-msg').remove();
+
+        var name = $('input[name=plate_name]');
+        var desc = $('textarea[name=plate_desc]');
+        var can_post = true;
+
+        var warning_tag_start = '<span class="warning-msg">';
+        var warning_tag_end = '</span>';
+
+        if (name.val() == '') {
+            name.focus();
+            name.after(warning_tag_start + '请输入板块名称' + warning_tag_end);
+            can_post = false;
+        }
+        if (desc.val() == '') {
+            desc.focus();
+            desc.after(warning_tag_start + '请输入板块描述' + warning_tag_end);
+            can_post = false;
+        }
+        return can_post;
+    });
 });
+

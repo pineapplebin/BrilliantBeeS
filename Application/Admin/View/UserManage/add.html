@@ -1,37 +1,38 @@
 <extend name="./Template/Public/admin_base.html" />
 
-<block name="title">添加用户</block>
+<block name="title">{:C('SITE_NAME')} - 添加用户</block>
 
 <block name="css_file">
-    <link rel="stylesheet" href="__PUBLIC__/css/sitesetting.index.css" type="text/css"/>
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.userManage.css" type="text/css"/>
 </block>
 
 <block name="content">
-    <form action="{:U('add')}" method="post" id="add_user">
+    <h2>添加用户</h2>
+    <hr>
+    <form action="{:U('addHandle')}" method="post" id="add_user">
         <div class="panel panel-primary">
-            <div class="panel-heading"><h4>添加用户</h4></div>
+            <div class="panel-heading"><h5>请输入内容，用户名、密码、邮箱必须填写</h5></div>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <div class="setting-label"><label>用户名</label></div>
-                    <div class="setting-option"><input type="text" name="user_name"/></div>
+                    <div class="setting-label"><label for="user_name">用户名</label></div>
+                    <div class="setting-option"><input type="text" name="user_name" id="user_name"/></div>
                 </li>
                 <li class="list-group-item">
-                    <div class="setting-label"><label>密码</label></div>
-                    <div class="setting-option"><input type="text" name="user_password"/></div>
+                    <div class="setting-label"><label for="user_password">密码</label></div>
+                    <div class="setting-option"><input type="text" name="user_password" id="user_password"/></div>
                 </li>
                 <li class="list-group-item">
-                    <div class="setting-label"><label>邮箱</label></div>
-                    <div class="setting-option"><input type="text" name="user_email"/></div>
+                    <div class="setting-label"><label for="user_email">邮箱</label></div>
+                    <div class="setting-option"><input type="text" name="user_email" id="user_email"/></div>
                 </li>
                 <li class="list-group-item">
                     <div class="setting-label"><label>晋级用户组</label></div>
                     <div class="setting-option">
                         <select name="user_level_group">
-                            <option value="0" >不属于</option>
-                            <option value="1" >Lv(01)</option>
-                            <option value="2" >Lv(02)</option>
-                            <option value="3" >Lv(03)</option>
-                            <option value="4" >Lv(04)</option>
+                            <option value="0">不属于</option>
+                            <foreach name="group_info['level']" item="level_group">
+                                <option value="{$level_group['level_id']}">{$level_group['level_name']}</option>
+                            </foreach>
                         </select>
                     </div>
                 </li>
@@ -39,11 +40,10 @@
                     <div class="setting-label"><label>特殊用户组</label></div>
                     <div class="setting-option">
                         <select name="user_special_group">
-                            <option value="0" >不属于</option>
-                            <option value="1" >禁止IP</option>
-                            <option value="2" >禁止发言</option>
-                            <option value="3" >游客</option>
-                            <option value="4" >待验证</option>
+                            <option value="0">不属于</option>
+                            <foreach name="group_info['special']" item="special_group">
+                                <option value="{$special_group['special_id']}">{$special_group['special_name']}</option>
+                            </foreach>
                         </select>
                     </div>
                 </li>
@@ -51,11 +51,10 @@
                     <div class="setting-label"><label>管理用户组</label></div>
                     <div class="setting-option">
                         <select name="user_admin_group">
-                            <option value="0" >不属于</option>
-                            <option value="1" >版主助理</option>
-                            <option value="2" >版主</option>
-                            <option value="3" >超级版主</option>
-                            <option value="4" >管理员</option>
+                            <option value="0">不属于</option>
+                            <foreach name="group_info['admin']" item="admin_group">
+                                <option value="{$admin_group['admin_id']}">{$admin_group['admin_name']}</option>
+                            </foreach>
                         </select>
                     </div>
                 </li>
@@ -63,8 +62,8 @@
         </div>
 
         <div>
-            <a href="{:U('index')}"><input type="button" class="btn btn-primary" value="返回"></a>
             <input type="submit" id="confirm_btn" class="btn btn-primary" value="确认添加"/>
+            <a href="{:U('index')}" class="btn btn-default">返回</a>
         </div>
     </form>
 </block>

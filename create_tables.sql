@@ -25,7 +25,6 @@ DROP TABLE IF EXISTS `bbs_level_group`;
 CREATE TABLE IF NOT EXISTS `bbs_level_group`(
     `level_id`  int primary key auto_increment,
     `level_name` varchar(255) not null,
-    `level_group_auth` varchar(35) not null,
     UNIQUE (`level_name`)
 )engine=myisam default charset=utf8;
 
@@ -34,7 +33,6 @@ DROP TABLE IF EXISTS `bbs_special_group`;
 CREATE TABLE IF NOT EXISTS `bbs_special_group`(
     `special_id`  int primary key auto_increment,
     `special_name` varchar(255) not null,
-    `special_group_auth` varchar(35) not null,
     UNIQUE (`special_name`)
 )engine=myisam default charset=utf8;
 
@@ -43,7 +41,6 @@ DROP TABLE IF EXISTS `bbs_admin_group`;
 CREATE TABLE IF NOT EXISTS `bbs_admin_group`(
     `admin_id` int primary key auto_increment,
     `admin_name` varchar(255) not null,
-    `admin_group_auth` varchar(35) not null,
     UNIQUE (`admin_name`)
 )engine=myisam default charset=utf8;
 

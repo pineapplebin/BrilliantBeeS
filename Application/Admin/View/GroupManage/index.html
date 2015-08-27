@@ -9,8 +9,8 @@
 <block name="content">
     <h2>用户组管理</h2>
     <hr>
-    <div id="index-body">
-        <div class="panel panel-primary">
+    <div id="index-body" style="max-width: 70%;">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h5 style="display: inline-block;">晋级用户组</h5>
             </div>
@@ -20,8 +20,8 @@
                     <li class="list-group-item">
                         <div class="setting-label">{$level['level_name']}</div>
                         <div class="setting-option">
-                            <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">编辑</a>
-                            <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">删除</a>
+                            <a href="{:U('editGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">编辑</a>
+                            <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">删除</a>
                         </div>
                     </li>
                     </foreach>
@@ -33,7 +33,7 @@
                 </ul>
             </div>
         </div>
-        <div class="panel panel-warning">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h5 style="display: inline-block;">特殊用户组</h5>
             </div>
@@ -43,8 +43,8 @@
                         <li class="list-group-item">
                             <div class="setting-label">{$special['special_name']}</div>
                             <div class="setting-option">
-                                <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">编辑</a>
-                                <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">删除</a>
+                                <a href="{:U('editGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">编辑</a>
+                                <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">删除</a>
                             </div>
                         </li>
                     </foreach>
@@ -56,7 +56,7 @@
                 </ul>
             </div>
         </div>
-        <div class="panel panel-danger">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h5 style="display: inline-block;">管理用户组</h5>
             </div>
@@ -66,8 +66,8 @@
                         <li class="list-group-item">
                             <div class="setting-label">{$admin['admin_name']}</div>
                             <div class="setting-option">
-                                <a class="btn-sm btn-primary" href="{:U('editGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">编辑</a>
-                                <a class="btn-sm btn-danger" href="{:U('deleteGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">删除</a>
+                                <a href="{:U('editGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">编辑</a>
+                                <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">删除</a>
                             </div>
                         </li>
                     </foreach>
