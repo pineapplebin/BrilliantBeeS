@@ -3,12 +3,13 @@ namespace Home\Controller;
 use Common\Controller\NormalBaseController;
 
 class PostController extends NormalBaseController{
+
     public function index(){
         $post_id = I('get.post_id');
         $post = M('post');
         $reply = M('reply');
-        $Post = $post -> where(array('post_id' => $post_id)) -> find();            // 贴子信息
-        $Reply = $reply -> where(array('reply_post_id' => $post_id)) -> select();  // 回复贴信息
+        $Post = $post->where(array('post_id' => $post_id))->find();            // 贴子信息
+        $Reply = $reply->where(array('reply_post_id' => $post_id))->select();  // 回复贴信息
         $reply_num = count($Reply,1);                                              // 回复数
         if($Post){
             $this -> assign('Post',$Post);
