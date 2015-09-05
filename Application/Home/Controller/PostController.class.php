@@ -17,62 +17,59 @@ class PostController extends NormalBaseController{
             $this -> assign('reply_num',$reply_num);
             $this -> display();
         }else{
-            $this -> error('帖子不存在');
-            exit;
+            $this->error('帖子不存在');
+            redirect($_SERVER['HTTP_REFERER']);
         }
 
     }
     public  function handle(){
-        if(!empty($_POST)){
-            $title = I('post.post_title');
-            $content = I('post.post_content');
-            $post_author_id = session('user_id');
-            $post_author_name = session('user_name');
+        if (!IS_POST) $this->redirect('Home/Index/index');
 
-            $can_save = true;
+        $title = I('post.post_title');
+        $content = I('post.post_content');
+        $post_author_id = session('user_id');
+        $post_author_name = session('user_name');
 
-            if($title == '' || $content == ''){
-                $can_save = false;
-                $this -> error('标题和内容不能为空');
-                exit;
-            }
-            if($post_author_id == '' || $post_author_name == ''){
-                $can_save = false;
-                $this -> error('你没有发帖的权限,请升级!');
-            }
-            if($can_save){
-                $time = strtotime('now');
-                $post_plate = I('post.plate_id');
+        $can_save = true;
 
-                $post_data = array(
-                    'post_title' => $title,
-                    'post_content' => $content,
-                    'post_time' => $time,
-                    'post_last_reply_time' => $time,
-                    'post_plate' => $post_plate,
-                    'post_author_id' => $post_author_id,
-                    'post_author_name' => $post_author_name,
-                );
+        // if($title == '' || $content == ''){
+        //     $can_save = false;
+        //     $this -> error('标题和内容不能为空');
+        //     exit;
+        // }
+        // if($post_author_id == '' || $post_author_name == ''){
+        //     $can_save = false;
+        //     $this -> error('你没有发帖的权限,请升级!');
+        // }
+        if($can_save){
+            $time = strtotime('now');
+            $post_plate = I('post.plate_id');
 
-                $post = M('post');
-                $post_result = $post -> data($post_data) -> add();
-                // 对应板块的帖子总数加1
-                $plate = M('plate');
-                $plate_result = $plate -> where(array('plate_id' => $post_plate))-> setInc('plate_post_count');
+            $post_data = array(
+                'post_title' => $title,
+                'post_content' => $content,
+                'post_time' => $time,
+                'post_last_reply_time' => $time,
+                'post_plate' => $post_plate,
+                'post_author_id' => $post_author_id,
+                'post_author_name' => $post_author_name,
+            );
 
-                if($post_result && $plate_result){
-                    flash('发贴成功!','green');
-                    $this -> redirect('/forum/'.$post_plate);
-                }else{
-                    $this -> error('发贴失败!');
-                }
+            $post = M('post');
+            $post_result = $post -> data($post_data) -> add();
+            // 对应板块的帖子总数加1
+            $plate = M('plate');
+            $plate_result = $plate -> where(array('plate_id' => $post_plate))-> setInc('plate_post_count');
 
+            if($post_result && $plate_result){
+                flash('发贴成功!','green');
+                $this -> redirect('/forum/'.$post_plate);
             }else{
                 $this -> error('发贴失败!');
             }
 
         }else{
-            $this -> display('Plate/index');
+            $this -> error('发贴失败!');
         }
     }
 

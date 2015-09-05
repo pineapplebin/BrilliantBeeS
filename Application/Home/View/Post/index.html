@@ -43,8 +43,9 @@
                 <input type="submit" class="btn btn-primary" value="回复"/>
             </div>
         </div>
-        <!-- 隐藏域 提交帖子ID-->
+        <!-- 隐藏域 提交帖子ID以及回复帖子的权限ID-->
         <input type="hidden" name="reply_post_id" value="{$Post['post_id']}"/>
+        <input type="hidden" name="auth_id" value="2" />
     </form>
 
 </block>

@@ -1,0 +1,46 @@
+<extend name="./Template/Public/admin_base.html"/>
+
+<block name="title">{:C('SITE_NAME')} - 用户组管理</block>
+
+<block name="css_file">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.action_auth.css">
+</block>
+
+<block name="content">
+    <h2>操作权限注册</h2>
+    <hr>   
+    <div class="select">
+    <form action="{:U('handle')}" method="post">
+        <select name="select_auth">
+            <option value="">请选择</option>
+            <option value="Post/handle_1_发表帖子_你没有发表帖子权限">发表帖子</option>
+            <option value="Post/reply_2_发表回复_你没有发表回复权限">发表回复</option>
+        </select>
+        &nbsp&nbsp
+        <input type="submit" value="添加">
+    </form>
+    </div>
+    
+    <br>
+
+    <form action="{:U('delete')}" method="post">
+       <table>
+          <th colspan="2">操作名</th>
+          
+            <empty name="auth_name_id"><tr><td colspan="2" style="text-align:center">空</td></tr></empty>
+            <notempty name="auth_name_id">
+                <foreach name="auth_name_id" item="auth_name_id">
+                <tr>
+                    <td class="tdLeft">
+                        {$auth_name_id['auth_name']}
+                    </td>
+                    <td class="tdRight">
+                        <input type="submit" value="删除" />                        
+                        <input type="hidden" value="{$auth_name_id.auth_id}" name="auth_id">
+                    </td>
+                </tr>  
+                </foreach>
+            </notempty>
+       </table>
+    </form>
+</block>

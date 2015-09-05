@@ -41,3 +41,4 @@ VALUES (3, 5, 1);
 
 INSERT INTO  `bbs_admin_auth_relation` (`group_id`, `auth_id`, `auth_value`)
 VALUES (4, 5, 1);
+

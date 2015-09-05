@@ -93,7 +93,7 @@ class GroupManageController extends AdminBaseController {
         );
         // 查询当前用户拥有的权限值
         $relation = M($type_list[$gtype][0].'_auth_relation')
-            ->where(array('group_id'=>$gid))->select();
+            ->where(array('group_id'=>$gid))->select();          
         // 查询所有权限
         $auths = M('authority')->order('auth_level ASC')->select();
         // 查询当前用户组信息
@@ -163,6 +163,21 @@ class GroupManageController extends AdminBaseController {
      * 删除用户组确认
      */
     public function deleteGroup($gtype, $gid) {
+        $type_list = array(
+            1 => array('level', '晋级用户组'),
+            2 => array('special', '特殊用户组'),
+            3 => array('admin', '管理用户组'),
+        );
+        $group_name = $type_list[$gtype][0];
+        $group_id = $gid;
 
+        $memberNum = M($group_name.'_group')->where($group_name.'_id='.$gid)->getField($group_name.'_members');
+        if($memberNum){
+            $this->error('该用户组存在用户');
+        }
+        else{
+            M($group_name.'_group')->where($group_name.'_id='.$gid)->delete();
+            $this->redirect('index');
+        }
     }
 }

@@ -135,7 +135,7 @@ class UserManageController extends AdminBaseController {
      * @param $user_id
      */
     public function update($user_id){
-        $user = M('user');
+        $user = M('user');        
 
         $info = $user->find($user_id);  // 一维数组
         if($info == NULL){
@@ -169,9 +169,53 @@ class UserManageController extends AdminBaseController {
         if (!IS_POST) $this->redirect('index');
 
         $user = M('user');
+        //更新前用户情况
+        $condition = array('user_id' => $_POST['user_id']);
+        $oldGroup = $user->where($condition)->field('user_level_group, user_special_group, user_admin_group')->find();
+        
+        //搜索变动的分组情况
+        $group_type[0] = 'user_level_group';
+        $group_type[1] = 'user_special_group';
+        $group_type[2] = 'user_admin_group';
+
+        for($i = 0; $i <3; $i++){
+            //得到如level_group或者。。。
+            preg_match('/(sp).*p|(ad).*p|(le).*p/', $group_type[$i], $type_name); 
+            //得到如level或者。。。
+            $type = preg_split('/_/', $type_name[0])[0];            
+
+            //发现post的和原来的分组情况有改变,原来不是0的-1，是0的不变，新的+1
+            if($oldGroup[$group_type[$i]]!=$_POST[$group_type[$i]]){
+                //原来的不变，新的+1
+                if($oldGroup[$group_type[$i]]=='0' && $_POST[$group_type[$i]]!='0'){
+                    $condition = array($type.'_id' => $_POST[$group_type[$i]]);
+                    $newNum[$type.'_members'] = (int)M($type_name[0])->where($condition)->getField($type.'_members') + 1;                    
+                    M($type_name[0])->where($condition)->save($newNum);
+                }
+                //原来的-1，新的不变
+                else if($oldGroup[$group_type[$i]]!='0' && $_POST[$group_type[$i]]=='0'){
+                    $condition = array($type.'_id' => $oldGroup[$group_type[$i]]);
+                    $newNum[$type.'_members'] = (int)M($type_name[0])->where($condition)->getField($type.'_members') - 1;                    
+                    M($type_name[0])->where($condition)->save($newNum);
+                }
+                //原来的-1，新的+1
+                else if($oldGroup[$group_type[$i]]!='0' && $_POST[$group_type[$i]]!='0'){
+                    $conditionNEW = array($type.'_id' => $_POST[$group_type[$i]]);
+                    $conditionOLD = array($type.'_id' => $oldGroup[$group_type[$i]]);
+                    $newNum[$type.'_members'] = (int)M($type_name[0])->where($conditionNEW)->getField($type.'_members') + 1;                    
+                    M($type_name[0])->where($conditionNEW)->save($newNum);
+                    $newNum[$type.'_members'] = (int)M($type_name[0])->where($conditionOLD)->getField($type.'_members') - 1;                    
+                    M($type_name[0])->where($conditionOLD)->save($newNum);
+                }
+            }                        
+            
+        }
+       
+
         try {
-            $user->create();
+            $user->create();            
             $result = $user->save();
+
         } catch(\Exception $e) {
             flash('发生错误，请重新尝试！');
             $this->redirect('update');

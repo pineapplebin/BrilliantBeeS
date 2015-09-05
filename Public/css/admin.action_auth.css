@@ -1,0 +1,56 @@
+.select{
+	width: 200px;
+	padding: 5px;
+	border-radius: 4px;
+}
+
+.select select{
+	width: 100px;
+	height: 30px;
+	border-radius: 4px;	
+}
+
+input{
+	width: 50px;
+	height: 30px;
+	border-radius: 5px;
+	background-color: #337ab7;
+	color: #fff;
+	border: 0px;
+}
+
+.tdLeft{
+	line-height: 27px;
+	padding-top: 3px;
+	padding-left: 10px;
+	padding-bottom: 3px;
+	height: 38px;
+	width: 350px;
+	float: left;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+.tdRight{
+	padding-top: 3px;
+	padding-right: 5px;
+	padding-bottom: 3px;
+	height: 38px;
+	width: 55px;
+	float: left;
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+th{
+	width: 405px;
+	height: 25px;
+	padding-left: 5px;
+	background-color: #cdf;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;	
+}
+tr:hover{
+	background-color: #F4F4F4;
+}

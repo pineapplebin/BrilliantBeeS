@@ -18,7 +18,7 @@
                 <ul class="list-group">
                     <foreach name="level_groups" item="level">
                     <li class="list-group-item">
-                        <div class="setting-label">{$level['level_name']}</div>
+                        <div class="setting-label">{$level['level_name']}({$level['level_members']}人)</div>
                         <div class="setting-option">
                             <a href="{:U('editGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">编辑</a>
                             <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'1','gid'=>$level['level_id']))}">删除</a>
@@ -41,7 +41,7 @@
                 <ul class="list-group">
                     <foreach name="special_groups" item="special">
                         <li class="list-group-item">
-                            <div class="setting-label">{$special['special_name']}</div>
+                            <div class="setting-label">{$special['special_name']}({$special['special_members']}人)</div>
                             <div class="setting-option">
                                 <a href="{:U('editGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">编辑</a>
                                 <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'2','gid'=>$special['special_id']))}">删除</a>
@@ -64,7 +64,7 @@
                 <ul class="list-group">
                     <foreach name="admin_groups" item="admin">
                         <li class="list-group-item">
-                            <div class="setting-label">{$admin['admin_name']}</div>
+                            <div class="setting-label">{$admin['admin_name']}({$admin['admin_members']}人)</div>
                             <div class="setting-option">
                                 <a href="{:U('editGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">编辑</a>
                                 <a style="color: indianred" href="{:U('deleteGroup', array('gtype'=>'3','gid'=>$admin['admin_id']))}">删除</a>

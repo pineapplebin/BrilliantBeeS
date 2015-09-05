@@ -7,7 +7,7 @@
  */
 echo '<meta charset="UTF-8">';
 
-$con = mysql_connect('localhost', 'root', 'apple1234');
+$con = mysql_connect('localhost', 'root', '');
 mysql_query("SET NAMES UTF8");
 
 $sql = array(
