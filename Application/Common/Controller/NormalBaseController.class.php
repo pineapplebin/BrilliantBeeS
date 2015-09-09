@@ -44,8 +44,9 @@ class NormalBaseController extends CommonController {
     *检查用户是否已登录
     */    
     public function checkLogIn(){
-        if(session('user_name') == '') {            
-            $this->error('请先登录');
+        if(session('user_name') == '') {
+            flash('请先登录');
+            redirect($_SERVER["HTTP_REFERER"]);            
         }
     }
 
@@ -72,7 +73,8 @@ class NormalBaseController extends CommonController {
                 }
         }                 
         if(!$have_auth){
-            $this->error($restrict_desc);                        
+            flash($restrict_desc);
+            redirect($_SERVER["HTTP_REFERER"]);                   
         }        
     }
 }

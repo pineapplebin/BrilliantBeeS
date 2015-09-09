@@ -56,3 +56,51 @@ function get_flash_messages() {
     session('flash_list', null);
     return $messages;
 }
+
+/**
+ * 帖子内容转换函数
+ */
+    function content_replace($content){
+        /**
+         * 表情转换
+         */
+        preg_match_all('/\[.*?\]/is', $content, $face);
+        if($face[0]){
+            //文件读取表情转换数组
+            $faceFile = F('data', '', './Application/Common/Common/');
+            foreach ($face[0] as $f) {
+                foreach ( $faceFile as $key => $value) {
+                    if($f == '['.$value.']'){
+                        $content = str_replace($f, '<img src="'.__ROOT__.'/Public/image/face/'.$key.'.gif" />', $content);
+                    }
+                    continue;
+                }               
+            }
+        }
+
+        /**
+         * 粗体,斜体转换
+         */
+        preg_match_all('/\[b\].*?\[\/b\]|\[i\].*?\[\/i\]/is', $content, $new_content);
+
+        if($new_content[0]){
+            foreach ($new_content[0] as $content_value) {
+                switch ($content_value[1]) {
+                    //转换粗体
+                    case 'b':
+                        $strong_content_value = preg_split('/[\[b\] \[\/b\]]+/', $content_value)[1];
+                        $content = str_replace($content_value, '<strong>'.$strong_content_value.'</strong>', $content);
+                        break;
+                    //转换斜体
+                    case 'i':
+                        $italic_content_value = preg_split('/[\[i\] \[\/i\]]+/', $content_value)[1];
+                        $content = str_replace($content_value, '<i>'.$italic_content_value.'</i>', $content);
+                        break;                   
+                }
+            }
+            return $content;
+        }
+    }
+
+ ?>   
+

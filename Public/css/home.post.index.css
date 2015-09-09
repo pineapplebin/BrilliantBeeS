@@ -12,3 +12,38 @@
     width: 80%;
     padding-left: 15px;
 }
+
+
+.edit_pannel{
+	height: 35px;	
+	padding: 3px;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-radius: 4px;
+}
+.edit_input a{
+	color: #aaa;
+	font-weight: bold;
+	text-decoration: none;
+	display: inline-block;
+	margin-left: 40px;
+	cursor: pointer;
+	float: left;	
+}
+
+.face_pannel{
+	border-style: inset;
+}
+
+.face_style{
+	margin-left: 10px;
+	display: none;	
+	position: relative;
+	z-index: 10;
+	border-radius: 3px;
+	float: left;
+}
+.face_style img:hover{
+	box-shadow: 0px 0px 1px blue;
+}

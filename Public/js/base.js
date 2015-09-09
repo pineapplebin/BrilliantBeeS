@@ -57,6 +57,51 @@ $(function() {
     });
 });
 
+/**
+ * 表情，粗体，斜体转换函数
+ */
+$(function(){
+    //粗体，斜体转换    
+    $('div.edit_input a#b_style, div.edit_input a#i_style').click(function(){
+        var a_id = $(this).attr('id');
+        var font_type = a_id.split(/_/)[0];
+
+        if(document.getElementById('post_content')) var content_type = 'post_content';
+        else if(document.getElementById('reply_content')) var content_type = 'reply_content';
+        var textarea_content = document.getElementById(content_type).value;
+        document.getElementById(content_type).value = textarea_content + '['+font_type+'][/'+font_type+']';
+        document.getElementById(content_type).focus();       
+
+    });
+
+    //表情转换
+    $('div.edit_input a#face_pannel').click(function(){        
+        $(this).toggleClass('face_pannel');
+        $('div.face_style').toggle();        
+    });
+    $('div.face_style img').click(function(){
+        var face_list = new Array();
+        face_list['touxiao'] = '偷笑';
+        face_list['fanu'] = '发怒';
+        face_list['zhouma'] = '咒骂'; 
+        face_list['weixiao'] = '微笑';
+        face_list['jingya'] = '惊讶';
+        face_list['liulei'] = '流泪';
+        face_list['se'] = '色';
+        face_list['tiaopi'] = '调皮';
+        face_list['ku'] = '酷'; 
+
+        var face_src = $(this).attr('src');    
+        var face_name = face_src.split(/[/.]/);
+
+        if(document.getElementById('post_content')) var content_type = 'post_content';
+        else if(document.getElementById('reply_content')) var content_type = 'reply_content';
+        var textarea_content = document.getElementById(content_type).value;
+        document.getElementById(content_type).value = textarea_content + '['+face_list[face_name[face_name.length-2]]+']';
+        document.getElementById(content_type).focus();         
+    });
+});
+
 
 function change_select(che, eng) {
     var triangle = '<span class="caret"></span>';
@@ -67,3 +112,4 @@ function change_select(che, eng) {
     var change_eng = $('#login_type_select');
     change_eng.val(eng);
 }
+

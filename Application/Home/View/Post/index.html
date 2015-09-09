@@ -12,7 +12,7 @@
                         发表于&nbsp;{$Post.post_time|date='Y-m-d H:i:s', ###}
                         <label style="float: right">#楼主</label>
                     </div>
-                    <div class="panel-body">{$Post.post_content}</div>
+                    <div class="panel-body">{$Post.post_content|content_replace=###}</div>
                 </div>
             </div>
             <!--回复贴,当回复数($reply_num)大于0,显示;-->
@@ -25,7 +25,7 @@
                                 发表于&nbsp;{$v.reply_time|date='Y-m-d H:i:s', ###}
                                 <label style="float: right">#{$v.reply_floor}楼</label>
                             </div>
-                            <div class="panel-body">{$v.reply_content}</div>
+                            <div class="panel-body">{$v.reply_content|content_replace=###}</div>
                         </div>
                     </div>
                 </volist>
@@ -38,7 +38,27 @@
             <div class="panel-heading">回复帖子</div>
             <div class="panel-body">
                 <div class="form-group">
-                    <textarea class="form-control" name="reply_content" rows="5" placeholder="说点什么吧..."></textarea>
+
+                    <div class="edit_pannel">
+                        <div class="edit_input">
+                            <a id="b_style" href="javascript:;">粗</a>                                            
+                            <a id="i_style" href="javascript:;"><i>斜</i></a>
+                            <a id="face_pannel" href="javascript:;"><img src="__PUBLIC__/image/face/face.jpg" /></a>
+                        </div>
+                        <div class="face_style">
+                            <img src="__PUBLIC__/image/face/touxiao.gif" />
+                            <img src="__PUBLIC__/image/face/fanu.gif" />
+                            <img src="__PUBLIC__/image/face/zhouma.gif" />
+                            <img src="__PUBLIC__/image/face/weixiao.gif" />
+                            <img src="__PUBLIC__/image/face/jingya.gif" />
+                            <img src="__PUBLIC__/image/face/liulei.gif" />
+                            <img src="__PUBLIC__/image/face/se.gif" />
+                            <img src="__PUBLIC__/image/face/tiaopi.gif" />
+                            <img src="__PUBLIC__/image/face/ku.gif" />
+                        </div>
+                    </div>
+
+                    <textarea class="form-control" id="reply_content" name="reply_content" rows="5" placeholder="说点什么吧..."></textarea>
                 </div>
                 <input type="submit" class="btn btn-primary" value="回复"/>
             </div>

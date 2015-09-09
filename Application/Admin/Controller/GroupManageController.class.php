@@ -173,11 +173,17 @@ class GroupManageController extends AdminBaseController {
 
         $memberNum = M($group_name.'_group')->where($group_name.'_id='.$gid)->getField($group_name.'_members');
         if($memberNum){
-            $this->error('该用户组存在用户');
+            flash('该用户组存在用户');
         }
         else{
-            M($group_name.'_group')->where($group_name.'_id='.$gid)->delete();
-            $this->redirect('index');
+
+            try {
+                M($group_name.'_group')->where($group_name.'_id='.$gid)->delete();  
+                flash('删除成功', 'green');    
+            } catch (\Exception $e) {
+                flash('删除失败');
+            }                                  
         }
+        $this->redirect('index');
     }
 }
